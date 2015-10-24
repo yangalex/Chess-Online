@@ -26,7 +26,7 @@ public class ChestServer extends Thread {
 			try{
 				Socket s = ss.accept();
 				server.message("Connection established: " + s.getInetAddress());
-				server.userConnected();
+				server.userConnected();				
 			}
 			catch(IOException ioe){
 				server.message(ioe.getMessage());

@@ -3,9 +3,6 @@ package Server;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-//import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,11 +25,12 @@ public class Server extends JFrame{
 	private JLabel topLabel;
 	
 	//Database Settings
+	private DatabaseManager db;
 	private String url = "jdbc:mysql://localhost:3306";;
 	private String username = "root";
-	private String password = "American12!!";
+	private String password = "";
 	
-	{		
+	{	
 		setSize(new Dimension(400,500));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -49,17 +47,7 @@ public class Server extends JFrame{
 	}
 	
 	private void connectToDatabase() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			//Connection conn = 
-			DriverManager.getConnection(url,username,password);	
-			message("Established connection to database!");
-		} 
-		catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			message("Could not connect to database."+ e.getMessage());
-			e.printStackTrace();
-		}
+		db = new DatabaseManager(this,url,username,password);  
 	}
 
 	private void startServer() {
