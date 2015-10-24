@@ -3,7 +3,7 @@ package Server;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.sql.Connection;
+//import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -51,7 +51,8 @@ public class Server extends JFrame{
 	private void connectToDatabase() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection conn = DriverManager.getConnection(url,username,password);	
+			//Connection conn = 
+			DriverManager.getConnection(url,username,password);	
 			message("Established connection to database!");
 		} 
 		catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException e) {
