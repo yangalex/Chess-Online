@@ -3,6 +3,7 @@ package Server;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.time.LocalDateTime;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,18 +32,22 @@ public class Server extends JFrame{
 	private String password = "";
 	
 	{	
-		setSize(new Dimension(400,500));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(new Dimension(400,500));
+		setMaximumSize(new Dimension(400,500));
+		setMinimumSize(new Dimension(400,500));
 	}
 	
 	// Creating ServerSocket
 	public Server(){
 		super("Chess Server");
+		
 		initializeVariables();
 		creatGUI();
 		connectToDatabase();
 		startServer();
+		
 		setVisible(true);
 	}
 	
@@ -58,7 +63,11 @@ public class Server extends JFrame{
 	private void initializeVariables() {
 		messageBox = new JTextArea();
 			messageBox.setEditable(false);
-			messageBox.setText("Welcome to the Chess Server");
+			messageBox.setText(
+					LocalDateTime.now().getHour() + ":" +
+					LocalDateTime.now().getMinute() + ":" +
+					LocalDateTime.now().getSecond() +" " +
+					"Welcome to the Chess Server");
 		topLabel = new JLabel("Connected Users: " + connectedUsers);
 			topLabel.setBackground(Color.WHITE);
 	}
@@ -87,7 +96,12 @@ public class Server extends JFrame{
 	
 	public void message(String message){
 		String original = messageBox.getText();
-		messageBox.setText(original + "\n" + message);
+		
+		messageBox.setText(original + "\n" + 
+				LocalDateTime.now().getHour() + ":" +
+				LocalDateTime.now().getMinute() + ":" +
+				LocalDateTime.now().getSecond() +" " +
+				message);
 	}
 	
 	public void userConnected(){
@@ -95,6 +109,9 @@ public class Server extends JFrame{
 		topLabel.setText("Connected Users: " + connectedUsers);
 		revalidate();
 		repaint();
+	}
+	public DatabaseManager getDatabase(){
+		return db;
 	}
 	
 	public static void main(String [] args){

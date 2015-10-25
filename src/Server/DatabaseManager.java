@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseManager {
+	private Connection conn;
 
 	DatabaseManager(Server server, String url, String username, String password){
 		try {
@@ -14,12 +15,15 @@ public class DatabaseManager {
 			e.printStackTrace();
 		}
 		try {
-			Connection conn = DriverManager.getConnection(url,username,password);
+			conn = DriverManager.getConnection(url,username,password);
 			server.message("Established connection to database!");
 
 		} catch (SQLException e) {
-			server.message(e.getMessage());
-			e.printStackTrace();
+			server.message("Could not establish Database");
+			if (Constants.Debug) e.printStackTrace();
 		}
+	}
+	public Connection getDatabaseConnection(){
+		return conn;
 	}
 }

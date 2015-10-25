@@ -17,8 +17,8 @@ public class ChestServer extends Thread {
 		catch(IOException ioe){
 			server.message("Problem starting server: " + ioe.getMessage());
 		}
-		
 	}
+	
 	@Override
 	public void run(){
 		if (ss == null) return;
