@@ -56,7 +56,11 @@ public class ChessClient extends Thread{
 		while (true){
 			if (ois == null) continue;
 			try {
-				ois.readObject();
+				Object obj = ois.readObject();
+				if (obj instanceof String){
+					//Got a message from the server
+					System.out.println((String)obj);
+				}
 			} catch (ClassNotFoundException | IOException e) {
 				// Client Disconnected from Server
 				try {
@@ -74,7 +78,7 @@ public class ChessClient extends Thread{
 
 	}
 	public static void main(String [] args){
-		ChessClient cc = new ChessClient("localhost",61111);
+		ChessClient cc = new ChessClient("45.55.5.167",61111);
 		cc.start();
 	}
 }

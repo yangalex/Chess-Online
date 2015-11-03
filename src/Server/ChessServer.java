@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.Vector;
 import java.lang.Thread;
 
@@ -12,7 +11,6 @@ public class ChessServer extends Thread{
 	private ServerSocket ss;
 	private Vector<ChessClientSocket> clients;
 	private DatabaseManager databaseManager;
-	private Scanner sc;
 	
 	ChessServer(){
 		

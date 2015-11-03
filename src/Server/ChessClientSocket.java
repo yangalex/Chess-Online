@@ -32,7 +32,14 @@ public class ChessClientSocket extends Thread {
 				try {
 					Object obj = ois.readObject();
 					if (obj instanceof Authenticate){
+						if (chessServer.getDatabaseManager() == null){
+							sendToClient("Server: Could not authenticate request.");
+							sendToClient("Server: Database connetion could not be established.");
+							chessServer.message("Server: coult not authenticate request. Could not connect to database");
+						}
+						else {
 						chessServer.getDatabaseManager().authenticate((Authenticate) obj);
+						}
 					}
 				} catch (ClassNotFoundException e) {
 					if (Settings.Debug) e.printStackTrace();
