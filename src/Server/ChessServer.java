@@ -67,4 +67,8 @@ public class ChessServer extends Thread{
 	public static void main(String[] args){
 		new ChessServer();
 	}
+	
+	public DatabaseManager getDatabaseManager(){
+		return databaseManager;
+	}
 }
