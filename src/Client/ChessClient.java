@@ -22,6 +22,7 @@ public class ChessClient extends Thread{
 				e.printStackTrace();
 			}
 		}
+		else return;
 	}
 	
 	public void sendToServer(Object obj){
@@ -56,9 +57,17 @@ public class ChessClient extends Thread{
 			if (ois == null) continue;
 			try {
 				ois.readObject();
-			} catch (ClassNotFoundException e) {
-				if (Settings.Debug) e.printStackTrace();
-			} catch (IOException e) {
+			} catch (ClassNotFoundException | IOException e) {
+				// Client Disconnected from Server
+				try {
+					ois.close();
+					oos.close();
+					socket.close();
+					System.out.println("Client: Disconnected from Server");
+					return;
+				} catch (IOException e1) {
+					if (Settings.Debug) e1.printStackTrace();
+				}
 				if (Settings.Debug) e.printStackTrace();
 			}
 		}

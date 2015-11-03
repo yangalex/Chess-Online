@@ -15,12 +15,14 @@ public class DatabaseManager {
 			try { 
 				conn = DriverManager.getConnection(Settings.url, Settings.username, Settings.password); 
 				message("Connected to Database!");
-				cs.start();
 			}
 			catch (SQLException e) {
 				message("Could not connect to Database.");
 				throw e;
 			}	
+			finally{
+				cs.start();
+			}
 		}
 
 		private void message(String message){
