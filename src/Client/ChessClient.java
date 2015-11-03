@@ -17,7 +17,7 @@ public class ChessClient extends Thread{
 			try {
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				ois = new ObjectInputStream(socket.getInputStream());
-				//sendToServer(new Authenticate("Camilo","american12","12345"));
+				sendToServer(new Authenticate("Camilo","american12","12345"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -28,7 +28,6 @@ public class ChessClient extends Thread{
 		try {
 			oos.writeObject(obj);
 			oos.flush();
-			oos.close();
 		} catch (IOException e) {
 			if (Settings.Debug) e.printStackTrace();
 		}
@@ -54,6 +53,7 @@ public class ChessClient extends Thread{
 	
 	public void run(){
 		while (true){
+			if (ois == null) continue;
 			try {
 				ois.readObject();
 			} catch (ClassNotFoundException e) {
