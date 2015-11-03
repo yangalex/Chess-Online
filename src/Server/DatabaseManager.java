@@ -10,26 +10,25 @@ import java.sql.Statement;
 public class DatabaseManager {
 		private Connection conn;
 
-		DatabaseManager() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
+		DatabaseManager(ChessServer cs) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			connect();
-		}
-		
-		private void connect() throws SQLException {
 			try { 
 				conn = DriverManager.getConnection(Settings.url, Settings.username, Settings.password); 
 				message("Connected to Database!");
+				cs.start();
 			}
 			catch (SQLException e) {
+				message("Could not connect to Database.");
 				throw e;
-			}			
+			}	
 		}
 
 		private void message(String message){
 			System.out.println(message);
 		}
 		
-		public Boolean Authenticate(Authenticate a){
+		public Boolean authenticate(Authenticate a){
+			System.out.println("Got an Authenticate Object");
 			try {
 				Statement st = conn.createStatement();
 				ResultSet users = st.executeQuery("USE Users; SELECT * FROM Users;");

@@ -28,13 +28,10 @@ public class ChessServer extends Thread{
 		
 		//Connecting to Database
 		try {
-			databaseManager = new DatabaseManager();
+			databaseManager = new DatabaseManager(this);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
 			if (Settings.Debug) e.printStackTrace();
 		}
-		
-		//Start listening for connections
-		start();
 	}
 	
 

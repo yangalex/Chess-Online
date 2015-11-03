@@ -32,7 +32,7 @@ public class ChessClientSocket extends Thread {
 				try {
 					Object obj = ois.readObject();
 					if (obj instanceof Authenticate){
-						chessServer.getDatabaseManager().Authenticate((Authenticate) obj);
+						chessServer.getDatabaseManager().authenticate((Authenticate) obj);
 					}
 				} catch (ClassNotFoundException e) {
 					if (Settings.Debug) e.printStackTrace();

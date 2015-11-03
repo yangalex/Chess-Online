@@ -65,7 +65,7 @@ public class ChessClient extends Thread{
 
 	}
 	public static void main(String [] args){
-		ChessClient cc = new ChessClient("45.55.5.167",61111);
+		ChessClient cc = new ChessClient("localhost",61111);
 		cc.start();
 	}
 }
