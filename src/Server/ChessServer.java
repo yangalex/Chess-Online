@@ -16,7 +16,7 @@ public class ChessServer extends Thread{
 	
 	ChessServer(){
 		startServer();
-		connectToDatabase();
+		//connectToDatabase();
 		message("Waiting for connections....");
 	}
 	
