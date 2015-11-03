@@ -13,45 +13,34 @@ public class ChessServer extends Thread{
 	private DatabaseManager databaseManager;
 	
 	ChessServer(){
-		startServer();
-		connectToDatabase();
-		message("Waiting for connections....");
-	}
-	
-	private void startServer() {
+		
+		// Connecting to Server
 		try{
 			ss = new ServerSocket(Settings.port);
 			clients = new Vector<ChessClientSocket>();
 			message("Server has been started!");
 			message("Listening: " + ss.getInetAddress() + ":"+ Settings.port);
-			start();
 		} 
 		catch(IOException ioe){
 			message("Problem starting server: " + ioe.getMessage());
 			if (Settings.Debug) ioe.printStackTrace();
 		}
-	}
-	
-	private void connectToDatabase() {
+		
+		//Connecting to Database
 		try {
 			databaseManager = new DatabaseManager();
-		} catch (SQLException e) {
-			message("Problem connecting to Database.");
-			if (Settings.Debug) e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			message("Database: Class not found");
-			if (Settings.Debug) e.printStackTrace();
-		} catch (InstantiationException e) {
-			message("Database: InstantiationException");	
-			if (Settings.Debug) e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			message("Database: IllegalAccessException");	
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
 			if (Settings.Debug) e.printStackTrace();
 		}
+		
+		//Start listening for connections
+		start();
 	}
+	
 
 	@Override
 	public void run(){
+		message("Waiting for connections....");
 		while(true){
 			try{
 				Socket s = ss.accept();

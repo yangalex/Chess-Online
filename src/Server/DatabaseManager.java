@@ -23,10 +23,6 @@ public class DatabaseManager {
 			}			
 		}
 
-		public Connection getDatabaseConnection(){
-			return conn;
-		}
-		
 		private void message(String message){
 			System.out.println(message);
 		}

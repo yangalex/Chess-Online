@@ -29,6 +29,7 @@ public class ChessClientSocket extends Thread {
 	public void run(){
 		
 		while(true){
+				if(ois == null) continue;
 				try {
 					Object obj = ois.readObject();
 					if (obj instanceof Authenticate){
