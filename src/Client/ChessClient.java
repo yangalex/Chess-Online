@@ -17,8 +17,7 @@ public class ChessClient extends Thread{
 			try {
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				ois = new ObjectInputStream(socket.getInputStream());
-				sendToServer(new Authenticate("Camilo","american12","12345"));
-				start();
+				//sendToServer(new Authenticate("Camilo","american12","12345"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -66,6 +65,7 @@ public class ChessClient extends Thread{
 
 	}
 	public static void main(String [] args){
-		new ChessClient("45.55.5.167",61111);
+		ChessClient cc = new ChessClient("45.55.5.167",61111);
+		cc.start();
 	}
 }
