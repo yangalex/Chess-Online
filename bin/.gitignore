@@ -1,0 +1,8 @@
+/Server/
+/Authenticate.class
+/ChessClientSocket.class
+/ChessServer.class
+/DatabaseManager.class
+/Settings.class
+/Client/
+/ChessClient.class

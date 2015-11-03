@@ -1,29 +1,33 @@
 package Server;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseManager {
-	private Connection conn;
+		private Connection conn;
 
-	DatabaseManager(Server server, String url, String username, String password){
-		try {
+		DatabaseManager() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			server.message(e.getMessage());
-			e.printStackTrace();
+			connect();
 		}
-		try {
-			conn = DriverManager.getConnection(url,username,password);
-			server.message("Established connection to database!");
+		
+		private void connect() throws SQLException {
+			try { 
+				conn = DriverManager.getConnection(Settings.url, Settings.username, Settings.password); 
+				message("Connected to Database!");
+			}
+			catch (SQLException e) {
+				throw e;
+			}			
+		}
 
-		} catch (SQLException e) {
-			server.message("Could not establish Database");
-			if (Constants.Debug) e.printStackTrace();
+		public Connection getDatabaseConnection(){
+			return conn;
 		}
-	}
-	public Connection getDatabaseConnection(){
-		return conn;
-	}
+		
+		private void message(String message){
+			System.out.println(message);
+		}
 }
