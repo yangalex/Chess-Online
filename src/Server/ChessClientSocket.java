@@ -27,30 +27,25 @@ public class ChessClientSocket extends Thread {
 	}
  
 	public void run(){
-		
 		while(true){
 				if(ois == null) continue;
 				try {
 					Object obj = ois.readObject();
 					if (obj instanceof Authenticate){
 						chessServer.message("Got a Authenticate Object");
-						authenticate((Authenticate) obj);
 					}
 				} catch (ClassNotFoundException e) {
 					if (Settings.Debug) e.printStackTrace();
+					chessServer.message("Server: Client Disconnected");
+					break;
 				} catch (IOException e) {
-					e.printStackTrace();
+					if (Settings.Debug) e.printStackTrace();
+					chessServer.message("Server: Client Disconnected");
+					break;
 				}
 		}
 	}
 	
-	private void authenticate(Authenticate obj) {
-		String publicKey = "1234";
-		// Talk to database
-		if (obj.getUsername(publicKey) == "Camilo"){
-			chessServer.message("Camilo!");
-		}
-	}
 
 	public void sendToClient(Object obj){
 		try {
