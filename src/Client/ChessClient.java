@@ -3,15 +3,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import Server.Authenticate;
+import Server.ChatMessage;
 import Server.Settings;
 
 public class ChessClient extends Thread{
 	private Socket socket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
+	
 	ChessClient(String host, int port){
 		if (connectToServer(host,port)){
 			try {
@@ -39,12 +40,24 @@ public class ChessClient extends Thread{
 			socket = new Socket(host,port);
 			message("Connected sucessfully to server.");
 			return true;
-		} catch (UnknownHostException e) {
-			if (Settings.Debug) e.printStackTrace();
-			return false;
 		} catch (IOException e) {
+			message("Could not connect to server.");
 			if (Settings.Debug) e.printStackTrace();
 			return false;
+		}
+	}
+	
+	
+	public void run(){
+		while (true){
+			try {
+				Object obj = ois.readObject();
+				processRequest(obj);
+				
+			} catch (ClassNotFoundException | IOException e) {
+				closeClient();
+				if (Settings.Debug) e.printStackTrace();
+			}
 		}
 	}
 	
@@ -52,31 +65,31 @@ public class ChessClient extends Thread{
 		System.out.println(message);
 	}
 	
-	public void run(){
-		while (true){
-			if (ois == null) continue;
-			try {
-				Object obj = ois.readObject();
-				if (obj instanceof String){
-					//Got a message from the server
-					System.out.println((String)obj);
-				}
-			} catch (ClassNotFoundException | IOException e) {
-				// Client Disconnected from Server
-				try {
-					ois.close();
-					oos.close();
-					socket.close();
-					System.out.println("Client: Disconnected from Server");
-					return;
-				} catch (IOException e1) {
-					if (Settings.Debug) e1.printStackTrace();
-				}
-				if (Settings.Debug) e.printStackTrace();
-			}
-		}
-
+	private void closeClient() {
+		try {
+			ois.close();
+			oos.close();
+			socket.close();
+			message("Client: Disconnected from Server");
+			return;
+		} catch (IOException e1) {
+			if (Settings.Debug) e1.printStackTrace();
+		}		
 	}
+
+	private void processRequest(Object obj) {
+		if (obj instanceof String){
+			//Got a message from the server
+			message((String)obj);
+		}
+		if (obj instanceof ChatMessage){
+			//Got a new chat message display it in the GUI
+			String message = ((ChatMessage) obj).getMessage();
+			//TODO delete after
+			message(message);
+		}
+	}
+
 	public static void main(String [] args){
 		ChessClient cc = new ChessClient("45.55.5.167",61111);
 		cc.start();
