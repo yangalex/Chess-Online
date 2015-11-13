@@ -6,7 +6,7 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
-import game.GameBoard;
+import Game.GameBoard;
 
 public class DashBoard extends JPanel {
 	

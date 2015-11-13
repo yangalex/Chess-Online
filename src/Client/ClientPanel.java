@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
-import game.GameBoard;
+import Game.GameBoard;
 
 
 public class ClientPanel extends JPanel {
