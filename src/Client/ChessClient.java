@@ -57,6 +57,7 @@ public class ChessClient extends Thread{
 			} catch (ClassNotFoundException | IOException e) {
 				closeClient();
 				if (Settings.Debug) e.printStackTrace();
+				return;
 			}
 		}
 	}

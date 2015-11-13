@@ -29,8 +29,6 @@ public class DatabaseManager {
 			}	
 		}
 		
-		
-		
 		private void message(String message){
 			cs.message(message);
 		}
@@ -72,9 +70,14 @@ public void close() {
 						r.getLastName() + ");";
 				statement = connect.createStatement();
 			    if (statement.execute(command)){
+			    	message("Created new user: ");
+			    	message(r.getFirstName());
+			    	message(r.getLastName());
 			    	return true;
 			    }
+		    	message("Could not create a user.");
 			    return false;
+
 			} catch (SQLException e) {
 				if(Settings.Debug) e.printStackTrace();
 				return false;
