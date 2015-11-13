@@ -1,17 +1,19 @@
-package Game;
+package Client.Windows;
 
 import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-public class GameBoard extends JPanel {
+import Client.Game.Tiles.Tile;
+
+public class GameBoardWindow extends JPanel {
 	private static final long serialVersionUID = 6415716059554739910L;
 	
 	private Tile[][] panels;
 	
 	
-	public GameBoard() {
+	public GameBoardWindow() {
 		initializeElements();
 		createGUI();
 	}

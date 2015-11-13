@@ -1,4 +1,4 @@
-package Game;
+package Client.Game.Tiles;
 
 import java.awt.Color;
 

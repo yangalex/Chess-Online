@@ -24,9 +24,7 @@ public class ChessClient extends Thread{
 			try {
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				ois = new ObjectInputStream(socket.getInputStream());
-				
-				sendToServer(new Register("SAL","american12", "Valentyna", "Restrepo"));
-				//sendToServer(new Authenticate("valentyna15","american12"));
+				start();
 			} catch (IOException e) {
 				if(Settings.Debug) e.printStackTrace();
 			}
@@ -60,8 +58,8 @@ public class ChessClient extends Thread{
 			try {
 				Object obj = ois.readObject();
 				processRequest(obj);
-				
-			} catch (ClassNotFoundException | IOException e) {
+			} 
+			catch (ClassNotFoundException | IOException e) {
 				closeClient();
 				if (Settings.Debug) e.printStackTrace();
 				return;
@@ -95,7 +93,9 @@ public class ChessClient extends Thread{
 			//// Did means that it could not register the user, please try again
 			message("Did not register succesfully");
 		}
-		
+		else if (obj instanceof Authenticate){
+			// Was not able to login
+		}
 		else if (obj instanceof Player){
 			setPlayer((Player) obj);
 			message("Got a player back" + ((Player) obj).getFirstName() + " " + ((Player) obj).getLastName());
@@ -109,11 +109,5 @@ public class ChessClient extends Thread{
 
 	private void setPlayer(Player player) {
 		this.player = player;
-	}
-	
-	////////////////// MAIN /////////////////////////
-	public static void main(String [] args){
-		ChessClient cc = new ChessClient("45.55.5.167",61111);
-		cc.start();
 	}
 }
