@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Scanner;
 
 public class DatabaseManager {
 		private Connection connect;
@@ -21,16 +20,8 @@ public class DatabaseManager {
 		DatabaseManager(ChessServer chessServer) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
 			cs = chessServer;
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Scanner in = new Scanner(System.in);
-			message("Enter database URL: ");
-			String url1 = in.nextLine();
-			String url = "jdbc:mysql://"+ url1 +":3306";
-			message("Enter username: ");
-			String username = in.nextLine();
-			message("Enter password: ");
-			String password = in.nextLine();
 			try { 
-				connect = DriverManager.getConnection(url, username, password); 
+				connect = DriverManager.getConnection(Settings.url, Settings.username, Settings.password); 
 				message("Connected to Database!");
 			}
 			catch (SQLException e) {
