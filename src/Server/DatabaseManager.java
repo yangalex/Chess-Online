@@ -29,6 +29,8 @@ public class DatabaseManager {
 			}
 		}
 		
+		
+		
 		private void message(String message){
 			System.out.println(message);
 		}
@@ -61,7 +63,7 @@ public class DatabaseManager {
 		}
 
 		/////////// COMMANDS /////////////////
-		public void createUser(Register r){
+		public Boolean createUser(Register r){
 			try {
 				String command = "INSERT INTO CHESS.Users (username,password,fname,lname) VALUES ("+ 
 						r.getUsername() + "," +
@@ -69,12 +71,13 @@ public class DatabaseManager {
 						r.getFirstName()+ "," +
 						r.getLastName() + ");";
 				statement = connect.createStatement();
-			    resultSet = statement.executeQuery(command);
-
+			    if (statement.execute(command)){
+			    	return true;
+			    }
+			    return false;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if(Settings.Debug) e.printStackTrace();
+				return false;
 			}
-		      // Result set get the result of the SQL query
 		}
 }
