@@ -21,19 +21,19 @@ public class DatabaseManager {
 		DatabaseManager(ChessServer chessServer) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
 			cs = chessServer;
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Scanner in = new Scanner(System.in);
+			message("Enter database URL: ");
+			String url1 = in.nextLine();
+			String url = "jdbc:mysql://"+ url1 +":3306";
+			message("Enter username: ");
+			String username = in.nextLine();
+			message("Enter password: ");
+			String password = in.nextLine();
 			try { 
-				Scanner in = new Scanner(System.in);
-				message("Enter database URL: ");
-				String url = in.nextLine();
-				message("Enter username: ");
-				String username = in.nextLine();
-				message("Enter password: ");
-				String password = in.nextLine();
 				connect = DriverManager.getConnection(url, username, password); 
 				message("Connected to Database!");
 			}
 			catch (SQLException e) {
-				//message("Could not connect to Database.");
 				throw e;
 			}	
 		}
@@ -60,13 +60,13 @@ public class DatabaseManager {
 			return false;
 		}
 
-		public void close() {
+		
+public void close() {
 			try {
 				if (connect != null)
 				connect.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if(Settings.Debug) e.printStackTrace();
 			}
 			
 		}
