@@ -20,8 +20,9 @@ public class ChessClient extends Thread{
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				ois = new ObjectInputStream(socket.getInputStream());
 				sendToServer(new Register("valentyna","camilo", "Valentyna", "Restrepo"));
+				message("Register sent");
 			} catch (IOException e) {
-				e.printStackTrace();
+				if(Settings.Debug) e.printStackTrace();
 			}
 		}
 		else return;
@@ -88,7 +89,7 @@ public class ChessClient extends Thread{
 	}
 
 	public static void main(String [] args){
-		ChessClient cc = new ChessClient("45.55.5.167",61111);
+		ChessClient cc = new ChessClient("localhost",61111);
 		cc.start();
 	}
 }

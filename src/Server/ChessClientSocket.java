@@ -41,7 +41,6 @@ public class ChessClientSocket extends Thread {
  
 	public void run(){
 		while(true){
-				if(ois == null) continue;
 				try {
 					Object obj = ois.readObject();
 					processRequest(obj);
@@ -58,6 +57,8 @@ public class ChessClientSocket extends Thread {
 	}
 	
 	private void processRequest(Object obj) {
+		System.out.println("Got anything");
+
 		if (obj instanceof Authenticate){
 			//Authenticate request to login | Send back Authenticate OBJ for client to proceed
 			
@@ -73,6 +74,7 @@ public class ChessClientSocket extends Thread {
 		//Remove from server
 		chessServer.removeClient(this);
 		//Close connections
+		chessServer.message("Client Disconnected " + socket.getInetAddress().getHostAddress());
 		try {
 			if (oos != null){
 				oos.close();
