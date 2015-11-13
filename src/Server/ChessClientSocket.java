@@ -7,6 +7,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import Server.Request.Authenticate;
+import Server.Request.ChatMessage;
+import Server.Request.Register;
+
 public class ChessClientSocket extends Thread {
 	// CLIENT CONNECTION
 	private Socket socket;
@@ -15,7 +19,7 @@ public class ChessClientSocket extends Thread {
 	private ObjectInputStream ois;
 	
 	//PLAYER SETTINGS
-	private String username;
+	private Player player;
 	
 	ChessClientSocket(Socket s, ChessServer cs){
 		socket = s;
@@ -45,32 +49,54 @@ public class ChessClientSocket extends Thread {
 					Object obj = ois.readObject();
 					processRequest(obj);
 				} catch (ClassNotFoundException e) {
+					close();
 					if (Settings.Debug) e.printStackTrace();
-					chessServer.message("Server: Client Disconnected");
 					break;
 				} catch (IOException e) {
-					if (Settings.Debug) e.printStackTrace();
-					chessServer.message("Server: Client Disconnected");
+					close();
+					if (Settings.Debug) e.getMessage();
 					break;
 				}
 		}
 	}
 	
-	private void processRequest(Object obj) {
-		System.out.println("Got anything");
-
+	public void message(String message){
+		chessServer.message("CLIENT:" + message);
+	}
+	
+ 	private void processRequest(Object obj) {
 		if (obj instanceof Authenticate){
-			//Authenticate request to login | Send back Authenticate OBJ for client to proceed
+			Player p = chessServer.getDatabaseManager().playerLogin((Authenticate) obj);
+			if (p != null){
+				setPlayer(p);
+				sendToClient(p);
+			}
+			else{
+				//Send Authenticate Back because It could not log in
+				sendToClient(obj);
+			}
 			
 		}
 		else if (obj instanceof Register){
-			System.out.println("Got a register");
-			chessServer.getDatabaseManager().createUser((Register) obj);
-			//Create new user | Send back Register OBJ for client to proceed
+			Player p = chessServer.getDatabaseManager().createPlayer((Register) obj);
+			if (p != null){
+				setPlayer(p);				
+				sendToClient(p);
+				
+			}
+			else{
+				sendToClient(obj);
+			}
+		}
+		else if (obj instanceof ChatMessage){
+			//GOT a message, Send to everyone except the person who sent it
+			chessServer.sendToClients(obj, this);
 		}
 	}
 	
 	public void close(){
+		//Make offline on database
+		chessServer.getDatabaseManager().playerOffline(player);
 		//Remove from server
 		chessServer.removeClient(this);
 		//Close connections
@@ -99,13 +125,13 @@ public class ChessClientSocket extends Thread {
 
 	
 	///////// GETTERS AND SETTERS /////////////
-	
-	public String getUsername() {
-		return username;
+
+	public Player getPlayer() {
+		return player;
 	}
 	
 
-	public void setUsername(String username) {
-		this.username = username;
+	private void setPlayer(Player player) {
+		this.player = player;
 	}
 }

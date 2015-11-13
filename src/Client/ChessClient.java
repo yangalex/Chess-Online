@@ -4,23 +4,29 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import Server.Authenticate;
-import Server.ChatMessage;
-import Server.Register;
+import Server.Player;
 import Server.Settings;
+import Server.Request.Authenticate;
+import Server.Request.ChatMessage;
+import Server.Request.Register;
 
 public class ChessClient extends Thread{
+	/// Server Properties
 	private Socket socket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
+	
+	/// Player Properties
+	private Player player;
 	
 	ChessClient(String host, int port){
 		if (connectToServer(host,port)){
 			try {
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				ois = new ObjectInputStream(socket.getInputStream());
-				sendToServer(new Register("valentyna","camilo", "Valentyna", "Restrepo"));
-				message("Register sent");
+				
+				sendToServer(new Register("SAL","american12", "Valentyna", "Restrepo"));
+				//sendToServer(new Authenticate("valentyna15","american12"));
 			} catch (IOException e) {
 				if(Settings.Debug) e.printStackTrace();
 			}
@@ -83,11 +89,29 @@ public class ChessClient extends Thread{
 		if (obj instanceof ChatMessage){
 			//Got a new chat message display it in the GUI
 			String message = ((ChatMessage) obj).getMessage();
-			//TODO delete after
 			message(message);
 		}
+		else if (obj instanceof Register){
+			//// Did means that it could not register the user, please try again
+			message("Did not register succesfully");
+		}
+		
+		else if (obj instanceof Player){
+			setPlayer((Player) obj);
+			message("Got a player back" + ((Player) obj).getFirstName() + " " + ((Player) obj).getLastName());
+		}
+	}
+	
+	/////////// SETTERS AND GETTERS ////////////////////
+	public Player getPlayer() {
+		return player;
 	}
 
+	private void setPlayer(Player player) {
+		this.player = player;
+	}
+	
+	////////////////// MAIN /////////////////////////
 	public static void main(String [] args){
 		ChessClient cc = new ChessClient("45.55.5.167",61111);
 		cc.start();

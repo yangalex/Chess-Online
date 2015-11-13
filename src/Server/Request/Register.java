@@ -1,4 +1,4 @@
-package Server;
+package Server.Request;
 
 import java.io.Serializable;
 
@@ -11,6 +11,7 @@ public class Register implements Serializable{
 		setPassword(password);
 		setFirstName(firstName);
 		setLastName(lastName);
+		
 	}
 	
 	//////// GETTER ANS SETTERS ////////////

@@ -1,4 +1,4 @@
-package Server;
+package Server.Request;
 
 public class ChatMessage {
 	private String message;

@@ -20,11 +20,7 @@ public class ChessServer extends Thread{
 			message("Could not start Server");
 			return;
 		}
-		if (connectToDatabase()){
-			message("Connection to database established.");
-		}
-		else{
-			message("Could not connect to Database");
+		if (!connectToDatabase()){
 			return;
 		}
 		start();
@@ -74,7 +70,7 @@ public class ChessServer extends Thread{
 	}
 	
 	public void message(String message){
-		System.out.println(message);
+		System.out.println("Server: "+ message);
 	}
 	
 	protected void removeClient(ChessClientSocket chessClientSocket) {
