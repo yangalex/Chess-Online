@@ -1,8 +1,9 @@
 package Server;
 
+import java.io.Serializable;
 
 //This class will be used to send a request to register a new user.
-public class Register {
+public class Register implements Serializable{
 	private String username, password, firstName, lastName;
 	public Register(String username, String password, String firstName, String lastName){
 		setUsername(username);
