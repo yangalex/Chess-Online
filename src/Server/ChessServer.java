@@ -25,7 +25,7 @@ public class ChessServer extends Thread{
 		}
 		else{
 			message("Could not connect to Database");
-			//return;
+			return;
 		}
 		start();
 	}

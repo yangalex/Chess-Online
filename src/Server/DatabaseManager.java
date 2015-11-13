@@ -63,7 +63,7 @@ public void close() {
 		/////////// COMMANDS /////////////////
 		public Boolean createUser(Register r){
 			try {
-				String command = "INSERT INTO CHESS.Users (username,password,fname,lname) VALUES ("+ 
+				String command = "INSERT INTO Chess.Users (username,password,fname,lname) VALUES ("+ 
 						r.getUsername() + "," +
 						r.getPassword() + "," +
 						r.getFirstName()+ "," +
