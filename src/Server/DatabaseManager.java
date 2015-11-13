@@ -63,13 +63,13 @@ public void close() {
 		/////////// COMMANDS /////////////////
 		public Boolean createUser(Register r){
 			try {
-				String command = "INSERT INTO Chess.Users (username,password,fname,lname) VALUES ("+ 
-						r.getUsername() + "," +
-						r.getPassword() + "," +
-						r.getFirstName()+ "," +
-						r.getLastName() + ");";
+				String command = "INSERT INTO Chess.Users (username,password,fname,lname,win,) VALUES ('"+ 
+						r.getUsername() + "','" +
+						r.getPassword() + "','" +
+						r.getFirstName()+ "','" +
+						r.getLastName()+ "');";
 				statement = connect.createStatement();
-			    if (statement.execute(command)){
+			    if (statement.executeUpdate(command) == 1){
 			    	message("Created new user: ");
 			    	message(r.getFirstName());
 			    	message(r.getLastName());
