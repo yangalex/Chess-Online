@@ -1,4 +1,4 @@
-package client;
+package Client.Windows;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class MainMenu extends JPanel {
+public class MainMenuWindow extends JPanel {
 	private static final long serialVersionUID = 3609831945869059312L;
 	
 	private final JButton login;
@@ -21,7 +21,7 @@ public class MainMenu extends JPanel {
 	
 	private final String spaces;
 	
-	public MainMenu(ActionListener loginAction, ActionListener registerAction) {
+	public MainMenuWindow(ActionListener loginAction, ActionListener registerAction) {
 		
 		login = new JButton("Login");
 		register = new JButton("Register");

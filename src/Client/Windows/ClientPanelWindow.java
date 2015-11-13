@@ -10,14 +10,14 @@ import javax.swing.JPanel;
 public class ClientPanelWindow extends JPanel {
 	private static final long serialVersionUID = 3609831945869059312L;
 		
-	private MainMenu mainMenu;
-	//private DashBoard dashBoard;
+	private MainMenuWindow mainMenu;
+	private DashBoardWindow dashBoard;
 	private RegisterWindow register;
 	private GameBoardWindow gameboard;
 	
 	public ClientPanelWindow() {
 
-		mainMenu = new MainMenu(new ActionListener() {
+		mainMenu = new MainMenuWindow(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				ClientPanelWindow.this.removeAll();
