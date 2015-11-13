@@ -6,6 +6,7 @@ import java.net.Socket;
 
 import Server.Authenticate;
 import Server.ChatMessage;
+import Server.Register;
 import Server.Settings;
 
 public class ChessClient extends Thread{
@@ -18,7 +19,7 @@ public class ChessClient extends Thread{
 			try {
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				ois = new ObjectInputStream(socket.getInputStream());
-				sendToServer(new Authenticate("Camilo","american12","12345"));
+				sendToServer(new Register("valentyna","camilo", "Valentyna", "Restrepo"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -46,7 +47,6 @@ public class ChessClient extends Thread{
 			return false;
 		}
 	}
-	
 	
 	public void run(){
 		while (true){
@@ -78,10 +78,6 @@ public class ChessClient extends Thread{
 	}
 
 	private void processRequest(Object obj) {
-		if (obj instanceof String){
-			//Got a message from the server
-			message((String)obj);
-		}
 		if (obj instanceof ChatMessage){
 			//Got a new chat message display it in the GUI
 			String message = ((ChatMessage) obj).getMessage();
