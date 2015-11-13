@@ -9,5 +9,5 @@ public class Settings {
 	static final int port = 61111;
 		
 	//Developer
-	public static final Boolean Debug = false;
+	public static final Boolean Debug = true;
 }

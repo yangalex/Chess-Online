@@ -7,32 +7,41 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class DatabaseManager {
 		private Connection connect;
 		private Statement statement = null;
 		private PreparedStatement preparedStatement = null;
 		private ResultSet resultSet = null;
+		
+		// SERVER
+		private ChessServer cs;
 
-		DatabaseManager(ChessServer cs) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
+		DatabaseManager(ChessServer chessServer) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
+			cs = chessServer;
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			try { 
-				connect = DriverManager.getConnection(Settings.url, Settings.username, Settings.password); 
+				Scanner in = new Scanner(System.in);
+				message("Enter database URL: ");
+				String url = in.nextLine();
+				message("Enter username: ");
+				String username = in.nextLine();
+				message("Enter password: ");
+				String password = in.nextLine();
+				connect = DriverManager.getConnection(url, username, password); 
 				message("Connected to Database!");
 			}
 			catch (SQLException e) {
 				//message("Could not connect to Database.");
 				throw e;
 			}	
-			finally{
-				cs.start();
-			}
 		}
 		
 		
 		
 		private void message(String message){
-			System.out.println(message);
+			cs.message(message);
 		}
 		
 		public Boolean authenticate(Authenticate a){
