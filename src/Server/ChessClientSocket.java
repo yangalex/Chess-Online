@@ -62,6 +62,7 @@ public class ChessClientSocket extends Thread {
 			
 		}
 		else if (obj instanceof Register){
+			chessServer.getDatabaseManager().createUser((Register) obj);
 			//Create new user | Send back Register OBJ for client to proceed
 		}
 	}

@@ -21,7 +21,7 @@ public class DatabaseManager {
 				message("Connected to Database!");
 			}
 			catch (SQLException e) {
-				message("Could not connect to Database.");
+				//message("Could not connect to Database.");
 				throw e;
 			}	
 			finally{
