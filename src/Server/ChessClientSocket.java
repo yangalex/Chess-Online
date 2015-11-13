@@ -24,6 +24,7 @@ public class ChessClientSocket extends Thread {
 			close();
 			return;
 		}
+		start();
 
 	}
 	
