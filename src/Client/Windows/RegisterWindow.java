@@ -1,4 +1,4 @@
-package client;
+package Client.Windows;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;

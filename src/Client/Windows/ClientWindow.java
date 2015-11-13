@@ -1,4 +1,4 @@
-package client;
+package Client.Windows;
 
 import java.awt.Dimension;
 
@@ -16,7 +16,7 @@ public class ClientWindow extends JFrame {
 		setSize(minSize);
 		setMinimumSize(minSize);
 		setMaximumSize(maxSize);
-		add(new ClientPanel());
+		add(new ClientPanelWindow());
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}

@@ -1,24 +1,21 @@
-package client;
+package Client.Windows;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import javax.swing.JPanel;
 
-import Game.GameBoard;
-
-public class DashBoard extends JPanel {
+public class DashBoardWindow extends JPanel {
+	private static final long serialVersionUID = -8690011202797301705L;
+	private GameBoardWindow gameboard;
 	
-	private GameBoard gameboard;
-	
-	public DashBoard() {
+	public DashBoardWindow() {
 		initializeElements();
 		createGUI();
 	}
 	
 	private void initializeElements() {
-		gameboard = new GameBoard();
+		gameboard = new GameBoardWindow();
 	}
 	
 	private void createGUI() {

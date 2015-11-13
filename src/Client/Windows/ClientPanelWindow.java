@@ -1,4 +1,4 @@
-package client;
+package Client.Windows;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -6,38 +6,36 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
-import Game.GameBoard;
 
-
-public class ClientPanel extends JPanel {
+public class ClientPanelWindow extends JPanel {
 	private static final long serialVersionUID = 3609831945869059312L;
 		
 	private MainMenu mainMenu;
 	//private DashBoard dashBoard;
 	private RegisterWindow register;
-	private GameBoard gameboard;
+	private GameBoardWindow gameboard;
 	
-	public ClientPanel() {
+	public ClientPanelWindow() {
 
 		mainMenu = new MainMenu(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				ClientPanel.this.removeAll();
+				ClientPanelWindow.this.removeAll();
 				//ClientPanel.this.add(dashBoard);
-				ClientPanel.this.revalidate();
-				ClientPanel.this.repaint();
+				ClientPanelWindow.this.revalidate();
+				ClientPanelWindow.this.repaint();
 			}
 		}, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				ClientPanel.this.removeAll();
-				ClientPanel.this.add(register);
-				ClientPanel.this.revalidate();
-				ClientPanel.this.repaint();
+				ClientPanelWindow.this.removeAll();
+				ClientPanelWindow.this.add(register);
+				ClientPanelWindow.this.revalidate();
+				ClientPanelWindow.this.repaint();
 			}
 		});
 		
-		gameboard = new GameBoard();
+		gameboard = new GameBoardWindow();
 		
 		setLayout(new BorderLayout());
 		add(mainMenu);
@@ -49,10 +47,10 @@ public class ClientPanel extends JPanel {
 		register = new RegisterWindow(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				ClientPanel.this.removeAll();
-				ClientPanel.this.add(gameboard);
-				ClientPanel.this.revalidate();
-				ClientPanel.this.repaint();
+				ClientPanelWindow.this.removeAll();
+				ClientPanelWindow.this.add(gameboard);
+				ClientPanelWindow.this.revalidate();
+				ClientPanelWindow.this.repaint();
 			}
 		});
 	}
