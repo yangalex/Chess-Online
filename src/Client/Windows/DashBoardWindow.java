@@ -8,6 +8,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 import Client.ChessClient;
+import Client.PlayersRequest;
 import Server.Player;
 
 public class DashBoardWindow extends JPanel {
@@ -59,7 +60,8 @@ public class DashBoardWindow extends JPanel {
 	
 	//////////// Server Communication //////////////
 	private void requestOnlinePlayers() {
-		chessClient.requestOnlinePlayers();
+		PlayersRequest request = new PlayersRequest();
+		chessClient.sendToServer(request);
 	}
 
 
