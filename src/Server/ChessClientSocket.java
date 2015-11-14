@@ -96,7 +96,7 @@ public class ChessClientSocket extends Thread {
 	
 	public void close(){
 		//Make offline on database
-		chessServer.getDatabaseManager().playerOffline(player);
+		if (player != null) chessServer.getDatabaseManager().playerOffline(player);
 		//Remove from server
 		chessServer.removeClient(this);
 		//Close connections

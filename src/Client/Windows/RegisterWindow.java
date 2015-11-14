@@ -105,8 +105,31 @@ public class RegisterWindow extends JPanel {
 		gbc.gridy = 7;
 		add(registerButton, gbc);
 	}
+	
 	public void errorMessage(String errorMessage){
 		errorLabel.setText(errorMessage);
 	}
+
+	//////// GETTERS /////////////
+	public String getUsername() {
+		return usernameField.getText();
+	}
+	
+	public String getPasswordOne(){
+		return passwordFieldOne.getText();
+	}
+	
+	public String getPasswordTwo(){
+		return passwordFieldTwo.getText();
+	}
+	
+	public String getFirstName(){
+		return firstNameField.getText();
+	}
+	
+	public String getLastName(){
+		return lastNameField.getText();
+	}
+	
 
 }

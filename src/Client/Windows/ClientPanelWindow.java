@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import Client.Settings;
 import Server.Request.Authenticate;
+import Server.Request.Register;
 
 import javax.swing.JPanel;
 
@@ -98,10 +99,15 @@ public class ClientPanelWindow extends JPanel {
 		registerWindow = new RegisterWindow(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				ClientPanelWindow.this.removeAll();
-				ClientPanelWindow.this.add(gameBoardWindow);
-				ClientPanelWindow.this.revalidate();
-				ClientPanelWindow.this.repaint();
+				if (!registerWindow.getPasswordOne().equals(registerWindow.getPasswordTwo())){
+					registerWindow.errorMessage("Password does not match");
+					return;
+				}
+				Register r = new Register(registerWindow.getUsername(), 
+						registerWindow.getPasswordOne(),
+						registerWindow.getFirstName(),
+						registerWindow.getLastName());
+				ClientPanelWindow.this.getChessClient().sendToServer(r);
 			}
 		}, this);
 	}
@@ -113,5 +119,14 @@ public class ClientPanelWindow extends JPanel {
 	
 	public ChessClient getChessClient(){
 		return chessClient;
+	}
+	
+
+	public LoginWindow getLoginWindow() {
+		return loginWindow;
+	}
+
+	public LoginWindow getRegisterWindow() {
+		return loginWindow;
 	}
 }

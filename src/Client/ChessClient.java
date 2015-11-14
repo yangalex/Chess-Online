@@ -89,16 +89,15 @@ public class ChessClient extends Thread{
 
 	private void processRequest(Object obj) {
 		if (obj instanceof ChatMessage){
-			//Got a new chat message display it in the GUI
 			String message = ((ChatMessage) obj).getMessage();
 			message(message);
 		}
 		else if (obj instanceof Register){
-			//// Did means that it could not register the user, please try again
-			message("Did not register succesfully");
+			cpw.getRegisterWindow().errorMessage("Could not login, please check your credentials.");
+
 		}
 		else if (obj instanceof Authenticate){
-			// Was not able to login
+			cpw.getLoginWindow().errorMessage("Could not login, please check your credentials.");
 		}
 		else if (obj instanceof Player){
 			setPlayer((Player) obj);
