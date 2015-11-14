@@ -8,14 +8,13 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 import Client.ChessClient;
-import Client.PlayersRequest;
 import Server.Player;
+import Server.Request.OnlinePlayers;
 
 public class DashBoardWindow extends JPanel {
 	private static final long serialVersionUID = -8690011202797301705L;
 	
 	/// Connections
-	private GameBoardWindow gameboard;
 	private ClientPanelWindow cpw;
 	private ChessClient chessClient;
 	
@@ -32,7 +31,6 @@ public class DashBoardWindow extends JPanel {
 	
 	
 	private void initializeElements() {
-//		gameboard = new GameBoardWindow();
 		playersList = new JList<String>();
 	}
 	
@@ -42,11 +40,11 @@ public class DashBoardWindow extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 2;
 		
-		add(gameboard, gbc);
+		add(playersList, gbc);
 		
 	}
 
-	private void setOnlinePlayers(Vector<Player> onlinePlayers) {
+	public void setOnlinePlayers(Vector<Player> onlinePlayers) {
 		int numPlayers = onlinePlayers.size();
 		String[] data = new String[numPlayers];
 		
@@ -60,7 +58,7 @@ public class DashBoardWindow extends JPanel {
 	
 	//////////// Server Communication //////////////
 	private void requestOnlinePlayers() {
-		PlayersRequest request = new PlayersRequest();
+		OnlinePlayers request = new OnlinePlayers();
 		chessClient.sendToServer(request);
 	}
 

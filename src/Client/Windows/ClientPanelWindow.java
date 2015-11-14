@@ -99,6 +99,22 @@ public class ClientPanelWindow extends JPanel {
 		registerWindow = new RegisterWindow(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				if (registerWindow.getFirstName().isEmpty()){
+					registerWindow.errorMessage("Please enter a first name");
+					return;
+				}
+				if (registerWindow.getLastName().isEmpty()){
+					registerWindow.errorMessage("Please enter a last name");
+					return;
+				}
+				if (registerWindow.getUsername().isEmpty()){
+					registerWindow.errorMessage("Please enter a username");
+					return;
+				}
+				if (registerWindow.getPasswordOne().isEmpty() || registerWindow.getPasswordTwo().isEmpty()){
+					registerWindow.errorMessage("Please enter a password");
+					return;
+				}
 				if (!registerWindow.getPasswordOne().equals(registerWindow.getPasswordTwo())){
 					registerWindow.errorMessage("Password does not match");
 					return;
@@ -127,8 +143,8 @@ public class ClientPanelWindow extends JPanel {
 		return loginWindow;
 	}
 
-	public LoginWindow getRegisterWindow() {
-		return loginWindow;
+	public RegisterWindow getRegisterWindow() {
+		return registerWindow;
 	}
 
 	public GameBoardWindow getGameBoardWindow(){

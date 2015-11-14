@@ -1,6 +1,7 @@
 package Server.Request;
 
-public class ChatMessage {
+public class ChatMessage extends Request{
+	private static final long serialVersionUID = 3285307679920556275L;
 	private String message;
 	ChatMessage(String message){
 		this.message = message;

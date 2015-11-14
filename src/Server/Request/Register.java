@@ -1,9 +1,7 @@
 package Server.Request;
 
-import java.io.Serializable;
-
 //This class will be used to send a request to register a new user.
-public class Register implements Serializable{
+public class Register extends Request{
 	private static final long serialVersionUID = -2897494051570722818L;
 	private String username, password, firstName, lastName;
 	public String message;

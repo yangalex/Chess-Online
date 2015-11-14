@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Vector;
 
 import Client.Windows.ClientPanelWindow;
 import Server.Player;
@@ -86,13 +87,14 @@ public class ChessClient extends Thread{
 		}		
 	}
 
+	@SuppressWarnings("unchecked")
 	private void processRequest(Object obj) {
 		if (obj instanceof ChatMessage){
 			String message = ((ChatMessage) obj).getMessage();
 			message(message);
 		}
 		else if (obj instanceof Register){
-			cpw.getRegisterWindow().errorMessage("Could not login, please check your credentials.");
+			cpw.getRegisterWindow().errorMessage(((Register) obj).message);
 			cpw.getRegisterWindow().revalidate();
 			cpw.getRegisterWindow().repaint();
 
@@ -112,6 +114,9 @@ public class ChessClient extends Thread{
 			cpw.add(cpw.getDashBoardWindow());
 			cpw.revalidate();
 			cpw.repaint();
+		}
+		else if (obj instanceof Vector<?>){
+			cpw.getDashBoardWindow().setOnlinePlayers((Vector<Player>) obj);
 		}
 	}
 	

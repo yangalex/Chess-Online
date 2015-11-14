@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 import Server.Request.Authenticate;
 import Server.Request.ChatMessage;
+import Server.Request.OnlinePlayers;
 import Server.Request.Register;
 
 public class ChessClientSocket extends Thread {
@@ -99,6 +100,9 @@ public class ChessClientSocket extends Thread {
 		else if (obj instanceof ChatMessage){
 			//GOT a message, Send to everyone except the person who sent it
 			chessServer.sendToClients(obj, this);
+		}
+		else if (obj instanceof OnlinePlayers){
+			sendToClient(chessServer.getDatabaseManager().getOnlinePlayers());
 		}
 	}
 	
