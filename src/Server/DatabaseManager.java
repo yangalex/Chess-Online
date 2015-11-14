@@ -100,7 +100,7 @@ public class DatabaseManager {
 			return null;
 		}
 		
-		public Player createPlayer(Register r){
+		public Player createPlayer(Register r) throws SQLException{
 			try {
 				PS = connect.prepareStatement(createUser);
 				PS.setString(1, r.getUsername());
@@ -118,7 +118,7 @@ public class DatabaseManager {
 
 			} catch (SQLException e) {
 				if(Settings.Debug) e.printStackTrace();
-				return null; 
+				throw e; 
 			}
 		}
 

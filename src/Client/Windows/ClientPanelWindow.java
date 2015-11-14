@@ -82,10 +82,15 @@ public class ClientPanelWindow extends JPanel {
 			@Override
 			// Action to login
 			public void actionPerformed(ActionEvent ae) {
-				System.out.println("LOGIN PRESSED");
-
+				if (loginWindow.getUsername().isEmpty()){
+					loginWindow.errorMessage("Please enter a username.");
+					return;
+				}
+				if (loginWindow.getPassword().isEmpty()){
+					loginWindow.errorMessage("Please enter a password.");
+					return;
+				}
 				getChessClient().sendToServer(new Authenticate(loginWindow.getUsername(), loginWindow.getPassword()));
-				System.out.println("sent");
 			}	
 		});
 	}

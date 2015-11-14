@@ -6,6 +6,7 @@ import java.io.Serializable;
 public class Register implements Serializable{
 	private static final long serialVersionUID = -2897494051570722818L;
 	private String username, password, firstName, lastName;
+	public String message;
 	public Register(String username, String password, String firstName, String lastName){
 		setUsername(username);
 		setPassword(password);

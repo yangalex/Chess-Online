@@ -52,6 +52,10 @@ public class LoginWindow extends JPanel{
 		add(passwordPanel, gbc);
 		
 		gbc.gridy = 3;
+		add(errorLabel, gbc);
+
+		
+		gbc.gridy = 4;
 		add(loginButton, gbc);
 	}
 

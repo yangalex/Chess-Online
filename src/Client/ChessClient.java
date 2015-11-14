@@ -93,14 +93,21 @@ public class ChessClient extends Thread{
 		}
 		else if (obj instanceof Register){
 			cpw.getRegisterWindow().errorMessage("Could not login, please check your credentials.");
+			cpw.getRegisterWindow().revalidate();
+			cpw.getRegisterWindow().repaint();
+
 		}
 		else if (obj instanceof Authenticate){
 			cpw.getLoginWindow().errorMessage("Could not login, please check your credentials.");
+			cpw.getLoginWindow().revalidate();
+			cpw.getLoginWindow().repaint();
+			System.out.println("Could not log in");
 		}
 		else if (obj instanceof Player){
 			setPlayer((Player) obj);
 			
 			// SHOW DASH BOARD
+			cpw.createDashBoardWindow();
 			cpw.removeAll();
 			cpw.add(cpw.getDashBoardWindow());
 			cpw.revalidate();
