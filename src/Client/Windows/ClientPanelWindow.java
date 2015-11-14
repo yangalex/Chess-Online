@@ -9,6 +9,7 @@ import Client.Settings;
 import Server.Request.Authenticate;
 import Server.Request.Register;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Client.ChessClient;
@@ -22,11 +23,13 @@ public class ClientPanelWindow extends JPanel {
 	private RegisterWindow registerWindow;
 	private LoginWindow loginWindow;
 	private GameBoardWindow gameBoardWindow;
+	private ClientWindow clientWindow;
 	
 	// SERVER
 	private ChessClient chessClient = null;
 	
-	public ClientPanelWindow() {
+	public ClientPanelWindow(ClientWindow cw) {
+		clientWindow = cw;
 		setLayout(new BorderLayout());
 		createGameBoardWindow();
 		
@@ -154,5 +157,10 @@ public class ClientPanelWindow extends JPanel {
 	
 	public DashBoardWindow getDashBoardWindow() {
 		return dashBoardWindow;
+	}
+
+	public JFrame getClientWindow() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

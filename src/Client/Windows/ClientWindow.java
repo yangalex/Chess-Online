@@ -16,7 +16,7 @@ public class ClientWindow extends JFrame {
 		setSize(minSize);
 		setMinimumSize(minSize);
 		setMaximumSize(maxSize);
-		add(new ClientPanelWindow());
+		add(new ClientPanelWindow(this));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}

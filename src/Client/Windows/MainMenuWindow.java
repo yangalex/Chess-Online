@@ -33,7 +33,7 @@ public class MainMenuWindow extends JPanel {
 		logoImage = new JLabel(ImageLibrary.getImageIcon("images/logo.png"));
 		loginButton = new JButton("Login");
 		registerButton = new JButton("Register");
-		errorLabel = new JLabel("");
+		errorLabel = new JLabel("  ");
 	}
 
 	private void createGUI() {

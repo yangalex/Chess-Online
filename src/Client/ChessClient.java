@@ -5,11 +5,15 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Vector;
 
+import javax.swing.JFrame;
+
 import Client.Windows.ClientPanelWindow;
+import Client.Windows.GameRequestedDialog;
 import Server.Player;
 import Server.Settings;
 import Server.Request.Authenticate;
 import Server.Request.ChatMessage;
+import Server.Request.GameRequest;
 import Server.Request.Register;
 
 public class ChessClient extends Thread{
@@ -22,8 +26,15 @@ public class ChessClient extends Thread{
 	private Player player;
 	private ClientPanelWindow cpw;
 	
+	///ONLY THING THAT WORKED
+	private Vector<String> usernameOfRequest;
+	
+	//
+	private GameRequestedDialog dialog = null;
+	
 	public ChessClient(String host, int port, ClientPanelWindow cpw) throws IOException{
 		this.cpw = cpw;
+		usernameOfRequest = new Vector<String>();
 		if (connectToServer(host,port)){
 			try {
 				oos = new ObjectOutputStream(socket.getOutputStream());
@@ -87,7 +98,6 @@ public class ChessClient extends Thread{
 		}		
 	}
 
-	@SuppressWarnings("unchecked")
 	private void processRequest(Object obj) {
 		if (obj instanceof ChatMessage){
 			String message = ((ChatMessage) obj).getMessage();
@@ -100,7 +110,7 @@ public class ChessClient extends Thread{
 
 		}
 		else if (obj instanceof Authenticate){
-			cpw.getLoginWindow().errorMessage("Could not login, please check your credentials.");
+			cpw.getLoginWindow().errorMessage(((Authenticate) obj).message);
 			cpw.getLoginWindow().revalidate();
 			cpw.getLoginWindow().repaint();
 			System.out.println("Could not log in");
@@ -118,6 +128,20 @@ public class ChessClient extends Thread{
 		else if (obj instanceof Vector<?>){
 			cpw.getDashBoardWindow().setOnlinePlayers((Vector<Player>) obj);
 		}
+		else if (obj instanceof GameRequest){
+			System.out.println("GOT REQUEST" + ((GameRequest) obj).getCancel());
+			if (usernameOfRequest.contains(((GameRequest) obj).getAsking().getUsername())){
+				dialog.dispose();
+				dialog = null;
+				usernameOfRequest.remove(((GameRequest) obj).getAsking().getUsername());
+			}
+			else{
+				usernameOfRequest.add(((GameRequest) obj).getAsking().getUsername());
+	            dialog = new GameRequestedDialog((GameRequest) obj, this);
+	            dialog.setVisible(true);
+			}
+            
+		}
 	}
 	
 	/////////// SETTERS AND GETTERS ////////////////////
@@ -128,4 +152,9 @@ public class ChessClient extends Thread{
 	private void setPlayer(Player player) {
 		this.player = player;
 	}
+
+	public JFrame getClientWindow() {
+		return cpw.getClientWindow();
+	}
+	
 }

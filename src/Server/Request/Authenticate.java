@@ -7,6 +7,7 @@ public class Authenticate implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
+	public String message = null;
 	public Authenticate(String u, String p){
 		username = u;
 		password = p;

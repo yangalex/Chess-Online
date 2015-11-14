@@ -26,6 +26,8 @@ public class LoginWindow extends JPanel{
 		initializeVariables();
 		createGUI();
 		loginButton.addActionListener(loginAction);
+		usernameField.addActionListener(loginAction);
+		passwordField.addActionListener(loginAction);
 	}
 
 	private void createGUI() {
@@ -62,7 +64,7 @@ public class LoginWindow extends JPanel{
 	private void initializeVariables() {
 		usernameField = new JTextField(20);
 		passwordField = new JPasswordField(20);
-		errorLabel = new JLabel("");
+		errorLabel = new JLabel("  ");
 		loginButton = new JButton("Login");
 	}
 	

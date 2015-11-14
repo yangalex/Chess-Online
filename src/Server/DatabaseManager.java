@@ -1,6 +1,7 @@
 package Server;
 
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,7 +23,7 @@ public class DatabaseManager {
 		//// PREPARE STATEMENTS
 		private String createUser = "INSERT INTO Users (username,password,fname,lname) VALUES (?,?,?,?);";
 		private String deleteUser = "DELETE FROM Users WHERE username = ?";
-		private String userLogin = "SELECT username,password,fname,lname FROM Users WHERE username = ?;";
+		private String userLogin = "SELECT username,password,fname,lname,active FROM Users WHERE username = ?;";
 		private String playerOnline = "UPDATE Users SET `active`= 1 WHERE username=?;";
 		private String playerOffline = "UPDATE Users SET `active`= 0 WHERE username=?;";
 		
@@ -79,17 +80,21 @@ public class DatabaseManager {
 
 		
 		/////////// COMMANDS /////////////////
-		public Player playerLogin(Authenticate a){
+		public Player playerLogin(Authenticate a) throws IOException{
 			try {
 				PS = connect.prepareStatement(userLogin);
 				PS.setString(1, a.getUsername());
 				rs = PS.executeQuery();
 				while(rs.next()){
 					if (rs.getString("password").equals(a.getPassword()) || rs.getString("password") == a.getPassword()){
-						Player p = new Player(rs.getString("username"),rs.getString("password"), rs.getString("fname"),rs.getString("lname"));
-						message("User authenticated: " + rs.getString("fname") + " " + rs.getString("lname"));
-						playerOnline(p);
-						return p;
+						if (rs.getBoolean("active") != true ){
+							Player p = new Player(rs.getString("username"),rs.getString("password"), rs.getString("fname"),rs.getString("lname"));
+							message("User authenticated: " + rs.getString("fname") + " " + rs.getString("lname"));
+							playerOnline(p);
+							return p;
+						}
+						// THIS IS BECAUSE HE IS ALREADY LOGGED IN
+						else throw new IOException();
 					}
 				}
 			} catch (SQLException e) {
@@ -198,6 +203,7 @@ public class DatabaseManager {
 			}
 			return false;
 		}
+		
 }
 
 

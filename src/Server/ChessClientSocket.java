@@ -7,9 +7,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.Vector;
 
 import Server.Request.Authenticate;
 import Server.Request.ChatMessage;
+import Server.Request.GameRequest;
 import Server.Request.OnlinePlayers;
 import Server.Request.Register;
 
@@ -69,14 +72,20 @@ public class ChessClientSocket extends Thread {
  	private void processRequest(Object obj) {
 		if (obj instanceof Authenticate){
 			message(socket.getInetAddress().getHostAddress() + " is trying to log in");
-			Player p = chessServer.getDatabaseManager().playerLogin((Authenticate) obj);
+			Player p = null;
+			try {
+				p = chessServer.getDatabaseManager().playerLogin((Authenticate) obj);
+			} catch (IOException e) {
+				((Authenticate) obj).message = "Player already online";
+				sendToClient(obj);
+				if (Settings.Debug) e.printStackTrace();
+			}
 			if (p != null){
 				setPlayer(p);
 				sendToClient(p);
-				message(socket.getInetAddress().getHostAddress() + " logged in successfully");
 			}
 			else{
-				message(socket.getInetAddress().getHostAddress() + " could not log in");
+				((Authenticate) obj).message = "Could not login, please check your credentials.";
 				sendToClient(obj);
 			}
 			
@@ -102,7 +111,24 @@ public class ChessClientSocket extends Thread {
 			chessServer.sendToClients(obj, this);
 		}
 		else if (obj instanceof OnlinePlayers){
-			sendToClient(chessServer.getDatabaseManager().getOnlinePlayers());
+			Vector<Player> players = chessServer.getDatabaseManager().getOnlinePlayers();
+			Iterator<Player> it = players.iterator();
+			while(it.hasNext()){
+				Player p = it.next();
+				if (p.getUsername().equals(player.getUsername())){
+					it.remove();
+				}
+			}
+			sendToClient(players);
+		}
+		else if (obj instanceof GameRequest){
+			for (ChessClientSocket ccs: chessServer.getClients()){
+				if (ccs.getPlayer().getUsername().equals(((GameRequest) obj).getRequest().getUsername())){
+					ccs.sendToClient(obj);
+					System.out.println("SENT THE GAME REQUEST TO USER");
+					return;
+				}
+			}
 		}
 	}
 	
