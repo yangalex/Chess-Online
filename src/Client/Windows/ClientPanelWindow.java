@@ -35,6 +35,7 @@ public class ClientPanelWindow extends JPanel {
 		
 	}
 	
+	//////////// CREATE WINDOWS ///////////////
 	private void createGameBoardWindow() {
 		gameBoardWindow = new GameBoardWindow();
 	}
@@ -76,23 +77,17 @@ public class ClientPanelWindow extends JPanel {
 		
 	}
 
-	protected LoginWindow createLoginWindow() {
+	protected void createLoginWindow() {
 		loginWindow = new LoginWindow(new ActionListener() {
 			@Override
 			// Action to login
 			public void actionPerformed(ActionEvent ae) {
-				if (loginWindow.getUsername().isEmpty()){
-					loginWindow.errorMessage("Please enter a username.");
-					return;
-				}
-				if (loginWindow.getPassword().isEmpty()){
-					loginWindow.errorMessage("Please enter a password.");
+				System.out.println("LOGIN PRESSED");
 
-					return;
-				}
+				getChessClient().sendToServer(new Authenticate(loginWindow.getUsername(), loginWindow.getPassword()));
+				System.out.println("sent");
 			}	
 		});
-		return loginWindow;
 	}
 
 	private void createRegisterWindow() {
@@ -112,10 +107,11 @@ public class ClientPanelWindow extends JPanel {
 		}, this);
 	}
 	
-	public DashBoardWindow createDashBoardWindow(){
+	public void createDashBoardWindow(){
 		dashBoardWindow = new DashBoardWindow(this);
-		return dashBoardWindow;
 	}
+	
+	//////////////// GETTTERS //////////////
 	
 	public ChessClient getChessClient(){
 		return chessClient;
@@ -128,5 +124,14 @@ public class ClientPanelWindow extends JPanel {
 
 	public LoginWindow getRegisterWindow() {
 		return loginWindow;
+	}
+
+	public GameBoardWindow getGameBoardWindow(){
+		return gameBoardWindow;
+	}
+
+	
+	public DashBoardWindow getDashBoardWindow() {
+		return dashBoardWindow;
 	}
 }
