@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class RegisterWindow extends JPanel {
@@ -22,10 +21,10 @@ public class RegisterWindow extends JPanel {
 	private JLabel errorLabel;
 	
 	// Connections
-	private ClientPanelWindow cpw;
+	//private ClientPanelWindow cpw;
 	
 	public RegisterWindow(ActionListener registerAction, ClientPanelWindow cpw) {
-		this.cpw = cpw;
+		//this.cpw = cpw;
 		initializeVariables();
 		createGUI();
 		registerButton.addActionListener(registerAction);

@@ -80,7 +80,6 @@ public class ChessClient extends Thread{
 			ois.close();
 			oos.close();
 			socket.close();
-			message("Client: Disconnected from Server");
 			return;
 		} catch (IOException e1) {
 			if (Settings.Debug) e1.printStackTrace();
@@ -94,16 +93,16 @@ public class ChessClient extends Thread{
 		}
 		else if (obj instanceof Register){
 			cpw.getRegisterWindow().errorMessage("Could not login, please check your credentials.");
-
 		}
 		else if (obj instanceof Authenticate){
 			cpw.getLoginWindow().errorMessage("Could not login, please check your credentials.");
 		}
 		else if (obj instanceof Player){
 			setPlayer((Player) obj);
+			
 			// SHOW DASH BOARD
 			cpw.removeAll();
-			cpw.add(cpw.createDashBoardWindow());
+			cpw.add(cpw.getDashBoardWindow());
 			cpw.revalidate();
 			cpw.repaint();
 		}

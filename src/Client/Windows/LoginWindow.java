@@ -31,7 +31,7 @@ public class LoginWindow extends JPanel{
 	private void createGUI() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(10,5,10,5);
+		gbc.insets = new Insets(10,10,10,10);
 		
 		JPanel usernamePanel = new JPanel();
 		usernamePanel.setOpaque(false);
@@ -46,16 +46,20 @@ public class LoginWindow extends JPanel{
 		passwordPanel.setOpaque(false);
 		passwordPanel.setLayout(new FlowLayout());
 		passwordPanel.add(new JLabel("Password: "));
-		passwordPanel.add(usernameField);
+		passwordPanel.add(passwordField);
 		
 		gbc.gridy = 2;
 		add(passwordPanel, gbc);
+		
+		gbc.gridy = 3;
+		add(loginButton, gbc);
 	}
 
 	private void initializeVariables() {
 		usernameField = new JTextField(20);
 		passwordField = new JPasswordField(20);
 		errorLabel = new JLabel("");
+		loginButton = new JButton("Login");
 	}
 	
 	public void errorMessage(String message){

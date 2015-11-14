@@ -66,13 +66,15 @@ public class ChessClientSocket extends Thread {
 	
  	private void processRequest(Object obj) {
 		if (obj instanceof Authenticate){
+			message(socket.getInetAddress().getHostAddress() + " is trying to log in");
 			Player p = chessServer.getDatabaseManager().playerLogin((Authenticate) obj);
 			if (p != null){
 				setPlayer(p);
 				sendToClient(p);
+				message(socket.getInetAddress().getHostAddress() + " logged in successfully");
 			}
 			else{
-				//Send Authenticate Back because It could not log in
+				message(socket.getInetAddress().getHostAddress() + " could not log in");
 				sendToClient(obj);
 			}
 			
