@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.SQLException;
 
 import Server.Request.Authenticate;
 import Server.Request.ChatMessage;
@@ -80,15 +81,20 @@ public class ChessClientSocket extends Thread {
 			
 		}
 		else if (obj instanceof Register){
-			Player p = chessServer.getDatabaseManager().createPlayer((Register) obj);
-			if (p != null){
-				setPlayer(p);				
-				sendToClient(p);
-				
+			try {
+				Player p = chessServer.getDatabaseManager().createPlayer((Register) obj);
+				if (p != null){
+					setPlayer(p);				
+					sendToClient(p);
+				}
+			} catch (SQLException e) {
+				if (e.getMessage().contains("Duplicate")){
+					((Register) obj).message = "Username already exist";
+					sendToClient(obj);
+				}
+				else sendToClient(obj);
 			}
-			else{
-				sendToClient(obj);
-			}
+
 		}
 		else if (obj instanceof ChatMessage){
 			//GOT a message, Send to everyone except the person who sent it
