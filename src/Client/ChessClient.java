@@ -19,7 +19,7 @@ public class ChessClient extends Thread{
 	/// Player Properties
 	private Player player;
 	
-	ChessClient(String host, int port){
+	public ChessClient(String host, int port) throws IOException{
 		if (connectToServer(host,port)){
 			try {
 				oos = new ObjectOutputStream(socket.getOutputStream());
@@ -27,7 +27,7 @@ public class ChessClient extends Thread{
 				start();
 			} catch (IOException e) {
 				if(Settings.Debug) e.printStackTrace();
-			}
+			}	
 		}
 		else return;
 	}
@@ -38,10 +38,11 @@ public class ChessClient extends Thread{
 			oos.flush();
 		} catch (IOException e) {
 			if (Settings.Debug) e.printStackTrace();
+			
 		}
 	}
 
-	private Boolean connectToServer(String host, int port) {
+	private Boolean connectToServer(String host, int port) throws IOException {
 		try {
 			socket = new Socket(host,port);
 			message("Connected sucessfully to server.");
@@ -49,7 +50,7 @@ public class ChessClient extends Thread{
 		} catch (IOException e) {
 			message("Could not connect to server.");
 			if (Settings.Debug) e.printStackTrace();
-			return false;
+			throw e;
 		}
 	}
 	

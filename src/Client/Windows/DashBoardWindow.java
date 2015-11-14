@@ -7,9 +7,13 @@ import javax.swing.JPanel;
 
 public class DashBoardWindow extends JPanel {
 	private static final long serialVersionUID = -8690011202797301705L;
-	private GameBoardWindow gameboard;
 	
-	public DashBoardWindow() {
+	/// Connections
+	private GameBoardWindow gameboard;
+	private ClientPanelWindow cpw;
+	
+	public DashBoardWindow(ClientPanelWindow cpw) {
+		this.cpw = cpw;
 		initializeElements();
 		createGUI();
 	}

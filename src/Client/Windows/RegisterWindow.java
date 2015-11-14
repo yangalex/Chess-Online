@@ -9,91 +9,104 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class RegisterWindow extends JPanel {
 	private static final long serialVersionUID = 3609831945869059312L;
 	
-	private final JButton register;
+	// Register Window Components
+	private JButton registerButton;
+	private JTextField usernameField, passwordFieldOne, passwordFieldTwo, firstNameField, lastNameField;
+	private JLabel errorLabel;
 	
-	private final String spaces;
+	// Connections
+	private ClientPanelWindow cpw;
 	
-	public RegisterWindow(ActionListener registerAction) {
-		
-		register = new JButton("Register");
-		
-		spaces = "                         ";
-		
+	public RegisterWindow(ActionListener registerAction, ClientPanelWindow cpw) {
+		this.cpw = cpw;
+		initializeVariables();
 		createGUI();
+		registerButton.addActionListener(registerAction);
 		
-		register.addActionListener(registerAction);
-	}
+		}
 	
+	private void initializeVariables() {
+		registerButton = new JButton("Register");
+		firstNameField = new JTextField(20);
+		lastNameField = new JTextField(20);
+		usernameField = new JTextField(20);
+		passwordFieldOne = new JPasswordField(20);
+		passwordFieldTwo = new JPasswordField(20);
+		errorLabel = new JLabel("");
+	}
+
 	private void createGUI() {
 		setLayout(new GridBagLayout());
 		
-		JLabel fName = new JLabel("First Name: ");
-		JLabel lName = new JLabel("Last Name: ");
-		JLabel username = new JLabel("Username: ");
-		JLabel password1 = new JLabel("Choose Password: ");
-		JLabel password2 = new JLabel("Confirm Password: ");
+		JLabel firstNameLabel = new JLabel("First Name: ");
+		JLabel lastNameLabel = new JLabel("Last Name: ");
+		JLabel usernameLabel = new JLabel("Username: ");
+		JLabel passwordLabelOne = new JLabel("Choose Password: ");
+		JLabel passwordLabelTwo = new JLabel("Confirm Password: ");
 		
-		JTextArea fNameInput = new JTextArea(spaces);
-		JTextArea lNameInput = new JTextArea(spaces);
-		JTextArea usernameInput = new JTextArea(spaces);
-		JTextArea password1Input = new JTextArea(spaces);
-		JTextArea password2Input = new JTextArea(spaces);
+		JPanel firstNamePanel = new JPanel();
+		firstNamePanel.setOpaque(false);
+		firstNamePanel.setLayout(new FlowLayout());
+		firstNamePanel.add(firstNameLabel);
+		firstNamePanel.add(firstNameField);
 		
-		JPanel fNamePanel = new JPanel();
-		fNamePanel.setOpaque(false);
-		fNamePanel.setLayout(new FlowLayout());
-		fNamePanel.add(fName);
-		fNamePanel.add(fNameInput);
-		
-		JPanel lNamePanel = new JPanel();
-		lNamePanel.setOpaque(false);
-		lNamePanel.setLayout(new FlowLayout());
-		lNamePanel.add(lName);
-		lNamePanel.add(lNameInput);
+		JPanel lastNamePanel = new JPanel();
+		lastNamePanel.setOpaque(false);
+		lastNamePanel.setLayout(new FlowLayout());
+		lastNamePanel.add(lastNameLabel);
+		lastNamePanel.add(lastNameField);
 		
 		JPanel usernamePanel = new JPanel();
 		usernamePanel.setOpaque(false);
 		usernamePanel.setLayout(new FlowLayout());
-		usernamePanel.add(username);
-		usernamePanel.add(usernameInput);
+		usernamePanel.add(usernameLabel);
+		usernamePanel.add(usernameField);
 		
-		JPanel password1Panel = new JPanel();
-		password1Panel.setOpaque(false);
-		password1Panel.setLayout(new FlowLayout());
-		password1Panel.add(password1);
-		password1Panel.add(password1Input);
+		JPanel passwordPanelOne = new JPanel();
+		passwordPanelOne.setOpaque(false);
+		passwordPanelOne.setLayout(new FlowLayout());
+		passwordPanelOne.add(passwordLabelOne);
+		passwordPanelOne.add(passwordFieldOne);
 		
-		JPanel password2Panel = new JPanel();
-		password2Panel.setOpaque(false);
-		password2Panel.setLayout(new FlowLayout());
-		password2Panel.add(password2);
-		password2Panel.add(password2Input);
+		JPanel passwordPanelTwo = new JPanel();
+		passwordPanelTwo.setOpaque(false);
+		passwordPanelTwo.setLayout(new FlowLayout());
+		passwordPanelTwo.add(passwordLabelTwo);
+		passwordPanelTwo.add(passwordFieldTwo);
 		
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(30,30,30,30);
+		gbc.insets = new Insets(5,30,5,30);
 		
 		gbc.gridy = 1;
-		add(fNamePanel, gbc);
+		add(firstNamePanel, gbc);
 		
 		gbc.gridy = 2;
-		add(lNamePanel, gbc);
+		add(lastNamePanel, gbc);
 				
 		gbc.gridy = 3;
 		add(usernamePanel, gbc);
 		
 		gbc.gridy = 4;
-		add(password1Panel, gbc);
+		add(passwordPanelOne, gbc);
 		
 		gbc.gridy = 5;
-		add(password2Panel, gbc);
+		add(passwordPanelTwo, gbc);
 		
 		gbc.gridy = 6;
-		add(register, gbc);
+		add(errorLabel,gbc);
+		
+		gbc.gridy = 7;
+		add(registerButton, gbc);
+	}
+	public void errorMessage(String errorMessage){
+		errorLabel.setText(errorMessage);
 	}
 
 }
