@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import Client.Settings;
+import Server.Request.Authenticate;
 
 import javax.swing.JPanel;
 
@@ -22,7 +23,7 @@ public class ClientPanelWindow extends JPanel {
 	private GameBoardWindow gameBoardWindow;
 	
 	// SERVER
-	private ChessClient cc = null;
+	private ChessClient chessClient = null;
 	
 	public ClientPanelWindow() {
 		setLayout(new BorderLayout());
@@ -43,7 +44,7 @@ public class ClientPanelWindow extends JPanel {
 			// Action for Login in
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					cc = new ChessClient(Settings.host, Settings.port);
+					chessClient = new ChessClient(Settings.host, Settings.port, ClientPanelWindow.this);
 					ClientPanelWindow.this.createLoginWindow();
 					ClientPanelWindow.this.removeAll();
 					ClientPanelWindow.this.add(loginWindow);
@@ -59,7 +60,7 @@ public class ClientPanelWindow extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					cc = new ChessClient(Settings.host, Settings.port);
+					chessClient = new ChessClient(Settings.host, Settings.port, ClientPanelWindow.this);
 					ClientPanelWindow.this.createRegisterWindow();
 					ClientPanelWindow.this.removeAll();
 					ClientPanelWindow.this.add(registerWindow);
@@ -74,9 +75,23 @@ public class ClientPanelWindow extends JPanel {
 		
 	}
 
-	protected void createLoginWindow() {
-		loginWindow = new LoginWindow();
-		
+	protected LoginWindow createLoginWindow() {
+		loginWindow = new LoginWindow(new ActionListener() {
+			@Override
+			// Action to login
+			public void actionPerformed(ActionEvent ae) {
+				if (loginWindow.getUsername().isEmpty()){
+					loginWindow.errorMessage("Please enter a username.");
+					return;
+				}
+				if (loginWindow.getPassword().isEmpty()){
+					loginWindow.errorMessage("Please enter a password.");
+
+					return;
+				}
+			}	
+		});
+		return loginWindow;
 	}
 
 	private void createRegisterWindow() {
@@ -91,7 +106,12 @@ public class ClientPanelWindow extends JPanel {
 		}, this);
 	}
 	
-	private void createDashBoardWindow(){
+	public DashBoardWindow createDashBoardWindow(){
 		dashBoardWindow = new DashBoardWindow(this);
+		return dashBoardWindow;
+	}
+	
+	public ChessClient getChessClient(){
+		return chessClient;
 	}
 }

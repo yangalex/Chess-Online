@@ -4,6 +4,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import Client.Windows.ClientPanelWindow;
 import Server.Player;
 import Server.Settings;
 import Server.Request.Authenticate;
@@ -18,8 +19,10 @@ public class ChessClient extends Thread{
 	
 	/// Player Properties
 	private Player player;
+	private ClientPanelWindow cpw;
 	
-	public ChessClient(String host, int port) throws IOException{
+	public ChessClient(String host, int port, ClientPanelWindow cpw) throws IOException{
+		this.cpw = cpw;
 		if (connectToServer(host,port)){
 			try {
 				oos = new ObjectOutputStream(socket.getOutputStream());
@@ -99,7 +102,11 @@ public class ChessClient extends Thread{
 		}
 		else if (obj instanceof Player){
 			setPlayer((Player) obj);
-			message("Got a player back" + ((Player) obj).getFirstName() + " " + ((Player) obj).getLastName());
+			// SHOW DASH BOARD
+			cpw.removeAll();
+			cpw.add(cpw.createDashBoardWindow());
+			cpw.revalidate();
+			cpw.repaint();
 		}
 	}
 	
