@@ -1,16 +1,25 @@
 package Client.Windows;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import Library.FontLibrary;
+import Library.ImageLibrary;
+import Library.PaintedButton;
 
 public class RegisterWindow extends JPanel {
 	private static final long serialVersionUID = 3609831945869059312L;
@@ -32,23 +41,53 @@ public class RegisterWindow extends JPanel {
 		}
 	
 	private void initializeVariables() {
-		registerButton = new JButton("Register");
+		registerButton = new PaintedButton("Register", ImageLibrary.getImage("images/button_image_white.png"), 20);
+		registerButton.setBorder(BorderFactory.createEmptyBorder());
+		registerButton.setPreferredSize(new Dimension(100,30));
+		registerButton.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 20));
+		
 		firstNameField = new JTextField(20);
+		firstNameField.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
+		
 		lastNameField = new JTextField(20);
+		lastNameField.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
+
 		usernameField = new JTextField(20);
+		usernameField.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
+
 		passwordFieldOne = new JPasswordField(20);
+		passwordFieldOne.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
+
 		passwordFieldTwo = new JPasswordField(20);
-		errorLabel = new JLabel("");
+		passwordFieldTwo.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
+
+		errorLabel = new JLabel("  ");
+		errorLabel.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
+		errorLabel.setForeground(Color.WHITE);
 	}
 
 	private void createGUI() {
 		setLayout(new GridBagLayout());
 		
 		JLabel firstNameLabel = new JLabel("First Name: ");
+		firstNameLabel.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
+		firstNameLabel.setForeground(Color.WHITE);
+
 		JLabel lastNameLabel = new JLabel("Last Name: ");
+		lastNameLabel.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
+		lastNameLabel.setForeground(Color.WHITE);
+		
 		JLabel usernameLabel = new JLabel("Username: ");
+		usernameLabel.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
+		usernameLabel.setForeground(Color.WHITE);
+		
 		JLabel passwordLabelOne = new JLabel("Choose Password: ");
+		passwordLabelOne.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
+		passwordLabelOne.setForeground(Color.WHITE);
+		
 		JLabel passwordLabelTwo = new JLabel("Confirm Password: ");
+		passwordLabelTwo.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
+		passwordLabelTwo.setForeground(Color.WHITE);
 		
 		JPanel firstNamePanel = new JPanel();
 		firstNamePanel.setOpaque(false);
@@ -129,6 +168,10 @@ public class RegisterWindow extends JPanel {
 	public String getLastName(){
 		return lastNameField.getText();
 	}
-	
+	@Override
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		g.drawImage(ImageLibrary.getImage("images/background_texture.jpg"), 0, 0, getWidth(), getHeight(), null);
+	}
 
 }
