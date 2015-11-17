@@ -23,9 +23,6 @@ public class PaintedButton extends JButton{
 		toDraw = mUp = inUp;
 		mDown = inDown;
 		mFontSize = inFontSize;
-		
-
-		
 		setOpaque(true);
 		setBackground(new Color(0,0,0,0));
 	}

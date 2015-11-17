@@ -76,8 +76,10 @@ public class LoginWindow extends JPanel{
 
 	private void initializeVariables() {
 		usernameField = new JTextField(20);
+		usernameField.setText("JMunoz");
 		usernameField.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 18));
 		passwordField = new JPasswordField(20);
+		passwordField.setText("american12");
 		errorLabel = new JLabel(" ");
 		errorLabel.setForeground(Color.WHITE);
 		errorLabel.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 20));

@@ -50,6 +50,8 @@ public class MainMenuWindow extends JPanel {
 		registerButton.setPreferredSize(new Dimension(100,30));
 		registerButton.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 20));
 		errorLabel = new JLabel("  ");
+		errorLabel.setFont(FontLibrary.getFont("fonts/optimus.ttf", Font.PLAIN, 12));
+		errorLabel.setForeground(Color.WHITE);
 	}
 
 	private void createGUI() {
