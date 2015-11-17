@@ -106,14 +106,12 @@ public class ChessClient extends Thread{
 		else if (obj instanceof Register){
 			cpw.getRegisterWindow().errorMessage(((Register) obj).message);
 			cpw.getRegisterWindow().revalidate();
-			cpw.getRegisterWindow().repaint();
-
+			cpw.getRegisterWindow().repaint(); 
 		}
 		else if (obj instanceof Authenticate){
 			cpw.getLoginWindow().errorMessage(((Authenticate) obj).message);
 			cpw.getLoginWindow().revalidate();
 			cpw.getLoginWindow().repaint();
-			System.out.println("Could not log in");
 		}
 		else if (obj instanceof Player){
 			setPlayer((Player) obj);
@@ -129,13 +127,16 @@ public class ChessClient extends Thread{
 			cpw.getDashBoardWindow().setOnlinePlayers((Vector<Player>) obj);
 		}
 		else if (obj instanceof GameRequest){
-			System.out.println("GOT REQUEST" + ((GameRequest) obj).getCancel());
-			if (usernameOfRequest.contains(((GameRequest) obj).getAsking().getUsername())){
+			System.out.print("GOT REQUEST" + ((GameRequest) obj).getCancel());
+			if (dialog != null){
+				System.out.println("CLOSE" + ((GameRequest) obj).getCancel());
 				dialog.dispose();
 				dialog = null;
 				usernameOfRequest.remove(((GameRequest) obj).getAsking().getUsername());
+
 			}
 			else{
+				System.out.println("OPEN" + ((GameRequest) obj).getCancel());
 				usernameOfRequest.add(((GameRequest) obj).getAsking().getUsername());
 	            dialog = new GameRequestedDialog((GameRequest) obj, this);
 	            dialog.setVisible(true);

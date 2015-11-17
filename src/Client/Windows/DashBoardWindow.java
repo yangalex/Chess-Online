@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import Client.ChessClient;
 import Server.Player;
+import Server.Request.ChatMessage;
 import Server.Request.GameRequest;
 import Server.Request.OnlinePlayers;
 
@@ -83,6 +84,7 @@ public class DashBoardWindow extends JPanel{
 									GameRequest gr = new GameRequest(chessClient.getPlayer(), GameRequestDialog.this.requesting);
 									gr.setCancel(true);
 						            chessClient.sendToServer(gr);
+						            chessClient.sendToServer(new ChatMessage("Hello"));
 								}});
 		            	}
 		            }

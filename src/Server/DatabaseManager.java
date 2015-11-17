@@ -41,8 +41,13 @@ public class DatabaseManager {
 				statement = connect.createStatement();
 				statement.executeQuery("SET SQL_SAFE_UPDATES = 0;");
 				statement.executeQuery("USE Chess;");
+				
+				//// MAKE EVERYONE OFFLINE WHEN YOU START THE SERVER
+				for (Player p : getOnlinePlayers()){
+					playerOffline(p);
+				}
 			}
-			catch (SQLException e) {
+			catch (SQLException e) {	
 				throw e;
 			}	
 		}
