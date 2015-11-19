@@ -1,54 +1,71 @@
 package Client.Windows;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.Dimension;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Client.Game.Tiles.Tile;
-
+/**
+ * 
+ * @author Alexandre
+ * Main game window that will hold the gameboard, chat, timer and lost pieces
+*
+ */
 public class GameBoardWindow extends JPanel {
 	private static final long serialVersionUID = 6415716059554739910L;
 	
-	private Tile[][] panels;
-	
+//	GameBoard gameBoard;
+	ChatBox chatBox;
+	TimerPanel timerPanel;
 	
 	public GameBoardWindow() {
-		initializeElements();
+		initializeComponents();
 		createGUI();
 	}
 	
-	private void initializeElements() {
-		panels = new Tile[8][8];
+	public void initializeComponents() {
+//		gameBoard = new GameBoard();
+		chatBox = new ChatBox();
+		timerPanel = new TimerPanel("Alex", "Camilo");
+		
+		// start timer 
+		new Thread(timerPanel).start();
 	}
 	
-	private void createGUI() {
-		setLayout(new GridLayout(8,8));
+	public void createGUI() {
+		setLayout(new BorderLayout());
 		
-		for (int i=0; i<8; i++) {
-			for (int j=0; j<8; j++) {
-				if(i%2 == 0) {
-					if(j%2 == 0) {
-						panels[i][j] = new Tile(Color.WHITE);
-						add(panels[i][j]);
-					}
-					else {
-						panels[i][j] = new Tile(Color.BLACK);
-						add(panels[i][j]);
-					}
-				}
-				else {
-					if(j%2 == 0) {
-						panels[i][j] = new Tile(Color.BLACK);
-						add(panels[i][j]);
-					}
-					else {
-						panels[i][j] = new Tile(Color.WHITE);
-						add(panels[i][j]);
-					}
-				}
-				
-			}
-		}
+		// set GameBoard as CENTER
+//		add(gameBoard, BorderLayout.CENTER);
+		
+		// temporary JPanel to replace gameboard
+		JPanel jp = new JPanel();
+		jp.setBackground(Color.black);
+		add(jp, BorderLayout.CENTER);
+		
+		// Create panel on EAST that will contain the timer and the chatbox
+		JPanel timerAndChatPanel = new JPanel(new BorderLayout());
+		timerAndChatPanel.setPreferredSize(new Dimension(200, 0));
+		timerAndChatPanel.add(timerPanel, BorderLayout.NORTH);
+		timerAndChatPanel.add(chatBox, BorderLayout.CENTER);
+		add(timerAndChatPanel, BorderLayout.EAST);
+	}
+	
+	public static void main(String[] args) {
+		JFrame frame = new JFrame();
+		frame.setSize(640, 480);
+		frame.setLocationRelativeTo(null);
+		frame.add(new GameBoardWindow());
+		frame.setVisible(true);
 	}
 }
+
+
+
+
+
+
+
+
