@@ -107,8 +107,8 @@ public class ChessClientSocket extends Thread {
 
 		}
 		else if (obj instanceof ChatMessage){
-			//GOT a message, Send to everyone except the person who sent it
-			chessServer.sendToClients(obj, this);
+			// got a message, send to everyone (including person who sent it)
+			chessServer.sendToClients(obj);
 		}
 		else if (obj instanceof OnlinePlayers){
 			Vector<Player> players = chessServer.getDatabaseManager().getOnlinePlayers();

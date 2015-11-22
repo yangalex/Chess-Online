@@ -70,6 +70,9 @@ public class GameRequestedDialog extends JDialog{
 				GameRequest newRequest = new GameRequest(GameRequestedDialog.this.cc.getPlayer(), GameRequestedDialog.this.requesting);
 				newRequest.setResponse(true);
 				GameRequestedDialog.this.cc.sendToServer(newRequest);
+
+				GameRequestedDialog.this.cc.getClientPanelWindow().createGameBoardWindow(GameRequestedDialog.this.requesting);
+				GameRequestedDialog.this.cc.startGame();
 	            GameRequestedDialog.this.cc.clearDialog();
 			}
 		});

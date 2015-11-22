@@ -5,14 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import Client.Settings;
-import Server.Request.Authenticate;
-import Server.Request.Register;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Client.ChessClient;
+import Client.Settings;
+import Server.Player;
+import Server.Request.Authenticate;
+import Server.Request.Register;
 
 
 public class ClientPanelWindow extends JPanel {
@@ -33,16 +33,11 @@ public class ClientPanelWindow extends JPanel {
 		setLayout(new BorderLayout());
 
 		createMainMenuWindow();
-		createGameBoardWindow();
 		add(mainMenuWindow);
 		
 	}
 	
 	//////////// CREATE WINDOWS ///////////////
-	private void createGameBoardWindow() {
-		gameBoardWindow = new GameBoardWindow(this);
-	}
-
 	private void createMainMenuWindow() {
 		mainMenuWindow = new MainMenuWindow(new ActionListener() {
 			@Override
@@ -133,6 +128,10 @@ public class ClientPanelWindow extends JPanel {
 	
 	public void createDashBoardWindow(){
 		dashBoardWindow = new DashBoardWindow(this);
+	}
+	
+	public void createGameBoardWindow(Player opponent) {
+		gameBoardWindow = new GameBoardWindow(this, opponent);
 	}
 	
 	//////////////// GETTTERS //////////////

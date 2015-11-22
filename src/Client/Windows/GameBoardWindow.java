@@ -3,11 +3,14 @@ package Client.Windows;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Client.ChessClient;
+import Server.Player;
+import Server.Request.ChatMessage;
 
 /**
  * 
@@ -27,19 +30,36 @@ public class GameBoardWindow extends JPanel {
 	ClientPanelWindow cpw;
 	ChessClient chessClient;
 	
-	public GameBoardWindow(ClientPanelWindow cpw) {
+	// Game logic
+	Player player;
+	Player opponent;
+	
+	public GameBoardWindow(ClientPanelWindow cpw, Player opponent) {
 		this.cpw = cpw;
 		this.chessClient = cpw.getChessClient();
+		this.opponent = opponent;
+		this.player = cpw.getChessClient().getPlayer();
 		
 		initializeComponents();
 		createGUI();
 	}
 	
 	public void initializeComponents() {
+		// TODO pass in local chessClient and opponent player
 //		gameBoard = new GameBoard();
-		chatBox = new ChatBox();
-		timerPanel = new TimerPanel("Alex", "Camilo");
 		
+		chatBox = new ChatBox(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				// create new chat message and send it to server
+				ChatMessage cm = new ChatMessage(chessClient.getPlayer(), chatBox.getMessage());
+				chessClient.sendToServer(cm);
+				
+				// clear sender's textfield
+				chatBox.getTextField().setText("");
+			}
+		});
+		
+		timerPanel = new TimerPanel(player.getUsername(), opponent.getUsername());
 		// start timer 
 		new Thread(timerPanel).start();
 	}
@@ -63,13 +83,18 @@ public class GameBoardWindow extends JPanel {
 		add(timerAndChatPanel, BorderLayout.EAST);
 	}
 	
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setSize(640, 480);
-		frame.setLocationRelativeTo(null);
-		frame.add(new GameBoardWindow(null));
-		frame.setVisible(true);
+	/////////// GETTERS AND SETTERS /////////////
+	public ChatBox getChatBox() {
+		return chatBox;
 	}
+	
+//	public static void main(String[] args) {
+//		JFrame frame = new JFrame();
+//		frame.setSize(740, 480);
+//		frame.setLocationRelativeTo(null);
+//		frame.add(new GameBoardWindow(null, null));
+//		frame.setVisible(true);
+//	}
 
 }
 

@@ -76,6 +76,14 @@ public class ChessClient extends Thread{
 		}
 	}
 	
+	// adds the gameboard window to the main panel
+	public void startGame() {
+		cpw.removeAll();
+		cpw.add(cpw.getGameBoardWindow());
+		cpw.revalidate();
+		cpw.repaint();	
+	}
+	
 	public void run(){
 		while (true){
 			try {
@@ -94,6 +102,10 @@ public class ChessClient extends Thread{
 		System.out.println(message);
 	}
 	
+	public void addChatMessage(String message) {
+		cpw.getGameBoardWindow().getChatBox().appendToChatArea(message);		
+	}
+	
 	private void closeClient() {
 		try {
 			ois.close();
@@ -107,8 +119,9 @@ public class ChessClient extends Thread{
 
 	private void processRequest(Object obj) {
 		if (obj instanceof ChatMessage){
-			String message = ((ChatMessage) obj).getMessage();
-			message(message);
+			ChatMessage cm = (ChatMessage)obj;
+			String message = cm.getSender().getUsername() + ": " + cm.getMessage();
+			addChatMessage(message);
 		}
 		else if (obj instanceof Register){
 			cpw.getRegisterWindow().errorMessage(((Register) obj).message);
@@ -149,8 +162,12 @@ public class ChessClient extends Thread{
 						// game rejected; close dialog on player that sent invite
 						cpw.getDashBoardWindow().clearDialog();
 					} else {
-						// start game
+						// start game and go to gameboard
 						System.out.println("START GAME");
+						cpw.getDashBoardWindow().clearDialog();
+						
+						cpw.createGameBoardWindow(request.getAsking());
+						startGame();
 					}
 				} else {
 					// initial request (received a request from another user)
@@ -175,6 +192,10 @@ public class ChessClient extends Thread{
 
 	public JFrame getClientWindow() {
 		return cpw.getClientWindow();
+	}
+	
+	public ClientPanelWindow getClientPanelWindow() {
+		return cpw;
 	}
 	
 }
