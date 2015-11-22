@@ -7,10 +7,13 @@ public class GameRequest extends Request{
 	/// PLAYERS
 	private Player asking, request;
 	private Boolean cancel;
+	private boolean response;
+
 	public GameRequest(Player asking, Player request){
 		setAsking(asking);
 		setRequest(request);
 		setCancel(false);
+		setResponse(false);
 	}
 	
 	
@@ -31,9 +34,17 @@ public class GameRequest extends Request{
 	public Boolean getCancel() {
 		return cancel;
 	}
-
+	
+	public Boolean isResponse() {
+		return response;
+	}
+	
 	public void setCancel(Boolean cancel) {
 		this.cancel = cancel;
+	}
+	
+	public void setResponse(Boolean response) {
+		this.response = response;
 	}
 	
 

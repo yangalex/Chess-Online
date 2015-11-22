@@ -56,7 +56,7 @@ public class ChessClient extends Thread{
 			
 		}
 	}
-
+	
 	private Boolean connectToServer(String host, int port) throws IOException {
 		try {
 			socket = new Socket(host,port);
@@ -66,6 +66,13 @@ public class ChessClient extends Thread{
 			message("Could not connect to server.");
 			if (Settings.Debug) e.printStackTrace();
 			throw e;
+		}
+	}
+	
+	public void clearDialog() {
+		if (dialog != null) {
+			dialog.dispose();
+			dialog = null;
 		}
 	}
 	
@@ -127,19 +134,31 @@ public class ChessClient extends Thread{
 			cpw.getDashBoardWindow().setOnlinePlayers((Vector<Player>) obj);
 		}
 		else if (obj instanceof GameRequest){
-			System.out.print("GOT REQUEST" + ((GameRequest) obj).getCancel());
-			if (dialog != null){
-				System.out.println("CLOSE" + ((GameRequest) obj).getCancel());
-				dialog.dispose();
-				dialog = null;
-				usernameOfRequest.remove(((GameRequest) obj).getAsking().getUsername());
+			GameRequest request = (GameRequest)obj;
 
-			}
-			else{
-				System.out.println("OPEN" + ((GameRequest) obj).getCancel());
-				usernameOfRequest.add(((GameRequest) obj).getAsking().getUsername());
-	            dialog = new GameRequestedDialog((GameRequest) obj, this);
-	            dialog.setVisible(true);
+			if (dialog != null && (dialog.getRequestingPlayer().getUsername().equals(request.getAsking().getUsername()))) {
+				// Request was cancelled by asking user
+				if (request.getCancel() == true) {
+					dialog.dispose();
+					dialog = null;
+				}
+			} else {
+				// Person who sent the invite receives response back 
+				if (request.isResponse()) {
+					if (request.getCancel() == true) {
+						// game rejected; close dialog on player that sent invite
+						cpw.getDashBoardWindow().clearDialog();
+					} else {
+						// start game
+						System.out.println("START GAME");
+					}
+				} else {
+					// initial request (received a request from another user)
+					System.out.println("Opened dialog");
+					dialog = new GameRequestedDialog(request, this);
+					dialog.setModal(false);
+					dialog.setVisible(true);
+				}
 			}
             
 		}

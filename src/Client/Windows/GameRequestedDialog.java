@@ -54,8 +54,12 @@ public class GameRequestedDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				// IF YOU GET FROM THE SAME PLAYER IT MEANS CANCEL
-	            GameRequestedDialog.this.cc.sendToServer(new GameRequest(GameRequestedDialog.this.cc.getPlayer(),GameRequestedDialog.this.requesting));
+
+				GameRequest newRequest = new GameRequest(GameRequestedDialog.this.cc.getPlayer(), GameRequestedDialog.this.requesting);
+				newRequest.setCancel(true);
+				newRequest.setResponse(true);
+	            GameRequestedDialog.this.cc.sendToServer(newRequest);
+	            GameRequestedDialog.this.cc.clearDialog();
 			}
 		});
     	acceptButton.addActionListener(new ActionListener(){
@@ -63,9 +67,15 @@ public class GameRequestedDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				// IF YOU GET FROM THE SAME PLAYER IT MEANS CANCEL
-	            //chessClient.sendToServer(new GameRequest(chessClient.getPlayer(),GameRequestDialog.this.requesting));
+				GameRequest newRequest = new GameRequest(GameRequestedDialog.this.cc.getPlayer(), GameRequestedDialog.this.requesting);
+				newRequest.setResponse(true);
+				GameRequestedDialog.this.cc.sendToServer(newRequest);
+	            GameRequestedDialog.this.cc.clearDialog();
 			}
 		});
+	}
+	
+	public Player getRequestingPlayer() {
+		return requesting;
 	}
 }

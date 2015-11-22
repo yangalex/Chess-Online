@@ -39,6 +39,7 @@ public class DashBoardWindow extends JPanel{
 	// Components
 	private JList playersList;
 	private Vector<Player> players;
+	private GameRequestDialog dialog;
 	
 	private JPanel livePlayersPanel, sidePanel;
 	
@@ -81,7 +82,6 @@ public class DashBoardWindow extends JPanel{
 					GameRequest gr = new GameRequest(chessClient.getPlayer(), GameRequestDialog.this.requesting);
 					gr.setCancel(true);
 		            chessClient.sendToServer(gr);
-		            chessClient.sendToServer(new ChatMessage("Hello"));
 				}});
     	}
     }
@@ -118,7 +118,8 @@ public class DashBoardWindow extends JPanel{
 		            Player requesting = players.get(index);
 		            chessClient.sendToServer(new GameRequest(chessClient.getPlayer(),requesting));
 		            
-		            GameRequestDialog dialog = new GameRequestDialog(requesting);
+		            dialog = new GameRequestDialog(requesting);
+		            dialog.setModal(false);
 		            dialog.setVisible(true); 
 		        }
 		    }
@@ -154,6 +155,17 @@ public class DashBoardWindow extends JPanel{
 
 		playersList.setListData(data);
 		playersList.repaint();
+	}
+	
+	public GameRequestDialog getGameRequestDialog() {
+		return dialog;
+	}
+	
+	public void clearDialog() {
+		if (dialog != null) {
+			dialog.dispose();
+			dialog = null;
+		}
 	}
 	
 	//////////// Server Communication //////////////

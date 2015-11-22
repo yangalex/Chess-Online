@@ -31,16 +31,16 @@ public class ClientPanelWindow extends JPanel {
 	public ClientPanelWindow(ClientWindow cw) {
 		clientWindow = cw;
 		setLayout(new BorderLayout());
-		createGameBoardWindow();
-		
+
 		createMainMenuWindow();
+		createGameBoardWindow();
 		add(mainMenuWindow);
 		
 	}
 	
 	//////////// CREATE WINDOWS ///////////////
 	private void createGameBoardWindow() {
-		gameBoardWindow = new GameBoardWindow();
+		gameBoardWindow = new GameBoardWindow(this);
 	}
 
 	private void createMainMenuWindow() {
@@ -163,4 +163,5 @@ public class ClientPanelWindow extends JPanel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

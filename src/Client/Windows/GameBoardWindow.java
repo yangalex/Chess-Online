@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Client.ChessClient;
+
 /**
  * 
  * @author Alexandre
@@ -16,11 +18,19 @@ import javax.swing.JPanel;
 public class GameBoardWindow extends JPanel {
 	private static final long serialVersionUID = 6415716059554739910L;
 	
+	// waiting for Lea's code
 //	GameBoard gameBoard;
 	ChatBox chatBox;
 	TimerPanel timerPanel;
 	
-	public GameBoardWindow() {
+	// Connections
+	ClientPanelWindow cpw;
+	ChessClient chessClient;
+	
+	public GameBoardWindow(ClientPanelWindow cpw) {
+		this.cpw = cpw;
+		this.chessClient = cpw.getChessClient();
+		
 		initializeComponents();
 		createGUI();
 	}
@@ -57,9 +67,10 @@ public class GameBoardWindow extends JPanel {
 		JFrame frame = new JFrame();
 		frame.setSize(640, 480);
 		frame.setLocationRelativeTo(null);
-		frame.add(new GameBoardWindow());
+		frame.add(new GameBoardWindow(null));
 		frame.setVisible(true);
 	}
+
 }
 
 
