@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 import Client.ChessClient;
+import Client.Game.GameBoard;
 import Server.Player;
 import Server.Request.ChatMessage;
 
@@ -21,8 +22,7 @@ import Server.Request.ChatMessage;
 public class GameBoardWindow extends JPanel {
 	private static final long serialVersionUID = 6415716059554739910L;
 	
-	// waiting for Lea's code
-//	GameBoard gameBoard;
+	GameBoard gameBoard;
 	ChatBox chatBox;
 	TimerPanel timerPanel;
 	
@@ -33,20 +33,22 @@ public class GameBoardWindow extends JPanel {
 	// Game logic
 	Player player;
 	Player opponent;
+	Color playerColor;
 	
-	public GameBoardWindow(ClientPanelWindow cpw, Player opponent) {
+	public GameBoardWindow(ClientPanelWindow cpw, Player opponent, Color playerColor) {
 		this.cpw = cpw;
 		this.chessClient = cpw.getChessClient();
 		this.opponent = opponent;
 		this.player = cpw.getChessClient().getPlayer();
-		
+		this.playerColor = playerColor;
+
 		initializeComponents();
 		createGUI();
 	}
 	
 	public void initializeComponents() {
 		// TODO pass in local chessClient and opponent player
-//		gameBoard = new GameBoard();
+		gameBoard = new GameBoard(playerColor, chessClient, opponent, cpw);
 		
 		chatBox = new ChatBox(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -68,12 +70,7 @@ public class GameBoardWindow extends JPanel {
 		setLayout(new BorderLayout());
 		
 		// set GameBoard as CENTER
-//		add(gameBoard, BorderLayout.CENTER);
-		
-		// temporary JPanel to replace gameboard
-		JPanel jp = new JPanel();
-		jp.setBackground(Color.black);
-		add(jp, BorderLayout.CENTER);
+		add(gameBoard, BorderLayout.CENTER);
 		
 		// Create panel on EAST that will contain the timer and the chatbox
 		JPanel timerAndChatPanel = new JPanel(new BorderLayout());
@@ -86,6 +83,10 @@ public class GameBoardWindow extends JPanel {
 	/////////// GETTERS AND SETTERS /////////////
 	public ChatBox getChatBox() {
 		return chatBox;
+	}
+	
+	public GameBoard getGameBoard() {
+		return gameBoard;
 	}
 	
 //	public static void main(String[] args) {

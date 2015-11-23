@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Vector;
 
+import Client.Game.Move;
 import Server.Request.Authenticate;
 import Server.Request.ChatMessage;
 import Server.Request.GameRequest;
@@ -126,6 +127,16 @@ public class ChessClientSocket extends Thread {
 				if (ccs.getPlayer().getUsername().equals(((GameRequest) obj).getRequest().getUsername())){
 					ccs.sendToClient(obj);
 					System.out.println("SENT THE GAME REQUEST TO USER");
+					return;
+				}
+			}
+		}
+		else if (obj instanceof Move) {
+			Move move = (Move)obj;
+			for (ChessClientSocket ccs : chessServer.getClients()) {
+				if (ccs.getPlayer().getUsername().equals(move.getOpponentUsername())) {
+					ccs.sendToClient(obj);
+					System.out.println("SENT MOVE TO USER: " + move.getOpponentUsername());
 					return;
 				}
 			}

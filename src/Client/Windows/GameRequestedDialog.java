@@ -1,5 +1,6 @@
 package Client.Windows;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -71,7 +72,7 @@ public class GameRequestedDialog extends JDialog{
 				newRequest.setResponse(true);
 				GameRequestedDialog.this.cc.sendToServer(newRequest);
 
-				GameRequestedDialog.this.cc.getClientPanelWindow().createGameBoardWindow(GameRequestedDialog.this.requesting);
+				GameRequestedDialog.this.cc.getClientPanelWindow().createGameBoardWindow(GameRequestedDialog.this.requesting, Color.BLACK);
 				GameRequestedDialog.this.cc.startGame();
 	            GameRequestedDialog.this.cc.clearDialog();
 			}

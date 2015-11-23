@@ -1,4 +1,5 @@
 package Client;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,6 +8,7 @@ import java.util.Vector;
 
 import javax.swing.JFrame;
 
+import Client.Game.Move;
 import Client.Windows.ClientPanelWindow;
 import Client.Windows.GameRequestedDialog;
 import Server.Player;
@@ -26,15 +28,10 @@ public class ChessClient extends Thread{
 	private Player player;
 	private ClientPanelWindow cpw;
 	
-	///ONLY THING THAT WORKED
-	private Vector<String> usernameOfRequest;
-	
-	//
 	private GameRequestedDialog dialog = null;
 	
 	public ChessClient(String host, int port, ClientPanelWindow cpw) throws IOException{
 		this.cpw = cpw;
-		usernameOfRequest = new Vector<String>();
 		if (connectToServer(host,port)){
 			try {
 				oos = new ObjectOutputStream(socket.getOutputStream());
@@ -166,7 +163,7 @@ public class ChessClient extends Thread{
 						System.out.println("START GAME");
 						cpw.getDashBoardWindow().clearDialog();
 						
-						cpw.createGameBoardWindow(request.getAsking());
+						cpw.createGameBoardWindow(request.getAsking(), Color.WHITE);
 						startGame();
 					}
 				} else {
@@ -177,7 +174,8 @@ public class ChessClient extends Thread{
 					dialog.setVisible(true);
 				}
 			}
-            
+		} else if (obj instanceof Move) {
+			cpw.getGameBoardWindow().getGameBoard().recievedMove((Move)obj);
 		}
 	}
 	

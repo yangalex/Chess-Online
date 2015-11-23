@@ -1,6 +1,7 @@
 package Client.Windows;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -130,8 +131,8 @@ public class ClientPanelWindow extends JPanel {
 		dashBoardWindow = new DashBoardWindow(this);
 	}
 	
-	public void createGameBoardWindow(Player opponent) {
-		gameBoardWindow = new GameBoardWindow(this, opponent);
+	public void createGameBoardWindow(Player opponent, Color playerColor) {
+		gameBoardWindow = new GameBoardWindow(this, opponent, playerColor);
 	}
 	
 	//////////////// GETTTERS //////////////
